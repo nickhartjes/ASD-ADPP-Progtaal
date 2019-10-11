@@ -6,7 +6,6 @@ IF: 'if';
 BOX_BRACKET_OPEN: '[';
 BOX_BRACKET_CLOSE: ']';
 
-
 //Literals
 TRUE: 'TRUE';
 FALSE: 'FALSE';
@@ -40,4 +39,14 @@ ASSIGNMENT_OPERATOR: ':=';
 
 //--- PARSER: ---
 
-stylesheet: EOF;
+stylesheet          :  stylerule* EOF;
+
+stylerule             : (className | idName | tagName) OPEN_BRACE declaration* CLOSE_BRACE;
+
+// Selectors
+className           : CLASS_IDENT ;
+idName              : ID_IDENT ;
+tagName             : LOWER_IDENT;
+
+// Declaration
+declaration         : LOWER_IDENT COLON (PIXELSIZE| PERCENTAGE | COLOR | SCALAR ) SEMICOLON;
