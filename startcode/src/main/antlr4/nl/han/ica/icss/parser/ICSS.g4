@@ -41,27 +41,28 @@ ASSIGNMENT_OPERATOR: ':=';
 
 stylesheet          :  variabele* stylerule* EOF;
 
-stylerule           : (className | idName | tagName) OPEN_BRACE declaration* CLOSE_BRACE;
+stylerule           : (class | id | tag ) OPEN_BRACE declaration* CLOSE_BRACE;
 
 // Selectors
-className           : CLASS_IDENT ;
-idName              : ID_IDENT ;
-tagName             : LOWER_IDENT;
+class               : CLASS_IDENT ;
+id                  : ID_IDENT ;
+tag                 : LOWER_IDENT;
 
 // Declaration
-declaration         : declarationName COLON declarationValue SEMICOLON;
-
+declaration         : declarationName COLON declarationValue SEMICOLON | if;
 declarationName     : LOWER_IDENT;
 declarationValue    : value | multiply | sum | subtraction;
 
 variabele           : variabeleName ASSIGNMENT_OPERATOR value SEMICOLON;
-
 variabeleName       : CAPITAL_IDENT;
 
-value               : PIXELSIZE | PERCENTAGE | COLOR | SCALAR | TRUE | FALSE | variabeleName ;
+value               : PIXELSIZE | PERCENTAGE | COLOR | SCALAR | boolean | variabeleName ;
+boolean             : TRUE | FALSE;
 
+// Operations
 multiply            : value MUL value | value MUL (sum | subtraction | multiply);
-
 sum                 : value PLUS value | value PLUS (sum | subtraction | multiply);
-
 subtraction         : value MIN value | value MIN (sum | subtraction | multiply);
+
+// Statements
+if                  : IF BOX_BRACKET_OPEN (boolean | variabeleName)  BOX_BRACKET_CLOSE OPEN_BRACE declaration* CLOSE_BRACE;
