@@ -39,9 +39,9 @@ ASSIGNMENT_OPERATOR: ':=';
 
 //--- PARSER: ---
 
-stylesheet          :  stylerule* EOF;
+stylesheet          :  variabele* stylerule* EOF;
 
-stylerule             : (className | idName | tagName) OPEN_BRACE declaration* CLOSE_BRACE;
+stylerule           : (className | idName | tagName) OPEN_BRACE declaration* CLOSE_BRACE;
 
 // Selectors
 className           : CLASS_IDENT ;
@@ -49,4 +49,10 @@ idName              : ID_IDENT ;
 tagName             : LOWER_IDENT;
 
 // Declaration
-declaration         : LOWER_IDENT COLON (PIXELSIZE| PERCENTAGE | COLOR | SCALAR ) SEMICOLON;
+declaration         : LOWER_IDENT COLON value SEMICOLON;
+
+variabele           : variabeleName ASSIGNMENT_OPERATOR value SEMICOLON;
+
+variabeleName      : CAPITAL_IDENT;
+
+value              : PIXELSIZE | PERCENTAGE | COLOR | SCALAR | TRUE | FALSE | variabeleName;
