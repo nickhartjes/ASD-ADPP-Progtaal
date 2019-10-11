@@ -49,10 +49,19 @@ idName              : ID_IDENT ;
 tagName             : LOWER_IDENT;
 
 // Declaration
-declaration         : LOWER_IDENT COLON value SEMICOLON;
+declaration         : declarationName COLON declarationValue SEMICOLON;
+
+declarationName     : LOWER_IDENT;
+declarationValue    : value | multiply | sum | subtraction;
 
 variabele           : variabeleName ASSIGNMENT_OPERATOR value SEMICOLON;
 
-variabeleName      : CAPITAL_IDENT;
+variabeleName       : CAPITAL_IDENT;
 
-value              : PIXELSIZE | PERCENTAGE | COLOR | SCALAR | TRUE | FALSE | variabeleName;
+value               : PIXELSIZE | PERCENTAGE | COLOR | SCALAR | TRUE | FALSE | variabeleName ;
+
+multiply            : value MUL value | value MUL (sum | subtraction | multiply);
+
+sum                 : value PLUS value | value PLUS (sum | subtraction | multiply);
+
+subtraction         : value MIN value | value MIN (sum | subtraction | multiply);
