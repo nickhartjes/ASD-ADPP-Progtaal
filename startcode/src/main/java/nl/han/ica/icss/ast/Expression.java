@@ -5,4 +5,5 @@ import nl.han.ica.icss.ast.types.ExpressionType;
 public abstract class Expression extends ASTNode {
 
     public abstract ExpressionType getExpressionType();
+
 }

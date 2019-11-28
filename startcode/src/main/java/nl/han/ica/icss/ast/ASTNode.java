@@ -2,11 +2,12 @@ package nl.han.ica.icss.ast;
 
 import nl.han.ica.icss.checker.Checkable;
 import nl.han.ica.icss.checker.SemanticError;
+import nl.han.ica.icss.generator.CssGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ASTNode implements Checkable {
+public class ASTNode implements Checkable, CssGenerator {
 
     private SemanticError error = null;
 
@@ -87,5 +88,10 @@ public class ASTNode implements Checkable {
     @Override
     public boolean check() {
         return true;
+    }
+
+    @Override
+    public String getCssString(ASTNode parent) {
+        return "";
     }
 }

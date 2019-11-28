@@ -39,4 +39,9 @@ public class PercentageLiteral extends Literal {
     public int hashCode() {
         return Objects.hash(value);
     }
+
+    @Override
+    public String getValue() {
+        return String.valueOf(value);
+    }
 }

@@ -33,7 +33,11 @@ public class ColorLiteral extends Literal {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(value);
+    }
+
+    @Override
+    public String getValue() {
+        return value;
     }
 }

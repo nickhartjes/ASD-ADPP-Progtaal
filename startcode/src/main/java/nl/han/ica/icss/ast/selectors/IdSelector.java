@@ -1,5 +1,6 @@
 package nl.han.ica.icss.ast.selectors;
 
+import nl.han.ica.icss.ast.ASTNode;
 import nl.han.ica.icss.ast.Selector;
 
 import java.util.Objects;
@@ -30,5 +31,10 @@ public class IdSelector extends Selector {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String getCssString(ASTNode parent) {
+        return this.id;
     }
 }

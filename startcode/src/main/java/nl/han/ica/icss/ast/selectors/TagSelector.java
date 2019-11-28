@@ -1,5 +1,6 @@
 package nl.han.ica.icss.ast.selectors;
 
+import nl.han.ica.icss.ast.ASTNode;
 import nl.han.ica.icss.ast.Selector;
 
 import java.util.Objects;
@@ -14,6 +15,7 @@ public class TagSelector extends Selector {
     public String getNodeLabel() {
         return "TagSelector " + tag;
     }
+
     public String toString() {
         return tag;
     }
@@ -29,7 +31,11 @@ public class TagSelector extends Selector {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(tag);
+    }
+
+    @Override
+    public String getCssString(ASTNode parent) {
+        return this.tag;
     }
 }
