@@ -1,5 +1,8 @@
 package nl.han.ica.icss.ast;
 
+import nl.han.ica.icss.ast.types.ExpressionType;
+import nl.han.ica.icss.checker.SemanticError;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -17,6 +20,23 @@ public class Declaration extends ASTNode {
 		super();
 		this.property = new PropertyName(property);
 	}
+
+	@Override
+	public boolean check() {
+		String name = this.property.name;
+		ExpressionType expressionType = this.expression.getExpressionType();
+
+		if(name.equals("width") && expressionType != ExpressionType.PIXEL){
+			this.setError("The value of 'background-color' needs to be an pixel literal. For example 500px");
+		}
+
+		if(name.equals("color") && expressionType != ExpressionType.COLOR){
+			this.setError("The value of 'color' needs to be an pixel literal. For example 500px");
+		}
+
+		return false;
+	}
+
 	@Override
 	public String getNodeLabel() {
 	    return "Declaration";

@@ -1,11 +1,12 @@
 package nl.han.ica.icss.ast;
 
+import nl.han.ica.icss.checker.Checkable;
 import nl.han.ica.icss.checker.SemanticError;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ASTNode {
+public class ASTNode implements Checkable {
 
     private SemanticError error = null;
 
@@ -80,6 +81,11 @@ public class ASTNode {
                 return false;
             }
         }
+        return true;
+    }
+
+    @Override
+    public boolean check() {
         return true;
     }
 }
