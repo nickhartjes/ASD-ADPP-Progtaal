@@ -112,4 +112,37 @@ public class ASTListener extends ICSSBaseListener {
 		ASTNode parent = this.currentContainer.peek();
 		parent.addChild(new ScalarLiteral(ctx.getText()));
 	}
+
+	@Override
+	public void enterSelector(ICSSParser.SelectorContext ctx) {
+		super.enterSelector(ctx);
+	}
+
+	@Override
+	public void enterLiteral(ICSSParser.LiteralContext ctx) {
+		super.enterLiteral(ctx);
+	}
+
+	@Override
+	public void enterBoolLiteral(ICSSParser.BoolLiteralContext ctx) {
+		super.enterBoolLiteral(ctx);
+		ASTNode parent = this.currentContainer.peek();
+		parent.addChild(new BoolLiteral(ctx.getText()));
+	}
+
+	@Override
+	public void enterVariableAssignment(ICSSParser.VariableAssignmentContext ctx) {
+		super.enterVariableAssignment(ctx);
+		ASTNode parent = this.currentContainer.peek();
+		var variableAssignment = new VariableAssignment();
+		parent.addChild(variableAssignment);
+		this.add(variableAssignment);
+	}
+
+	@Override
+	public void enterVariableReference(ICSSParser.VariableReferenceContext ctx) {
+		super.enterVariableReference(ctx);
+		ASTNode parent = this.currentContainer.peek();
+		parent.addChild(new VariableReference(ctx.getText()));
+	}
 }

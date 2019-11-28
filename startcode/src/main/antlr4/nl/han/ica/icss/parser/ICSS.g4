@@ -39,7 +39,7 @@ MUL: '*';
 ASSIGNMENT_OPERATOR: ':=';
 
 //--- PARSER: ---
-stylesheet          : stylerule* EOF;
+stylesheet          : variableAssignment* stylerule* EOF;
 
 stylerule           : selector OPEN_BRACE declaration* CLOSE_BRACE;
 
@@ -52,8 +52,14 @@ tagSelector         : LOWER_IDENT;
 // Declaration
 declaration         : propertyName COLON literal SEMICOLON;
 propertyName        : LOWER_IDENT;
-literal             : pixelLiteral | percentageLiteral | colorLiteral | scalarLiteral;
+literal             : pixelLiteral | percentageLiteral | colorLiteral | scalarLiteral | boolLiteral | variableReference;
 pixelLiteral        : PIXELSIZE;
 percentageLiteral   : PERCENTAGE;
 colorLiteral        : COLOR;
 scalarLiteral       : SCALAR;
+boolLiteral         : TRUE | FALSE;
+
+variableAssignment  : variableReference ASSIGNMENT_OPERATOR literal SEMICOLON;
+variableReference   : CAPITAL_IDENT;
+
+expression          : literal;
