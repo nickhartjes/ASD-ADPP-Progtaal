@@ -1,5 +1,5 @@
 # Beroepsproduct: parser (B_Progtaal)
-September 2019, v1.0
+September 2019, v1.1
 
 ## 1. Inleiding
 Zoals je waarschijnlijk wel weet wordt de opmaak van webpagina’s gespecificeerd in Cascading Style Sheets, oftewel CSS. Ontwerpkeuzes die gemaakt zijn in deze opmaaktaal maken het soms wat omslachtig om opmaak te beschrijven. Ook krijg je vaak herhalende code. Om deze problemen aan te pakken zijn er verschillende CSS preprocessors zoals [SASS][1] en [LESS][2] die een eigen CSS “dialect” vertalen naar standaard CSS code. In deze opdracht ga je zelf een vergelijkbare preprocessor maken.
@@ -61,7 +61,7 @@ CH00|Minimaal twee van onderstaande checks **moeten** zijn geïmplementeerd|Must
 CH01|Controleer of er geen variabelen worden gebruikt die niet gedefinieerd zijn.|Should|	4
 CH02|Controleer of de operanden van de operaties plus en min van gelijk type zijn en dat vermenigvuldigen enkel met scalaire waarden gebeurt. Je mag geen pixels bij percentages optellen bijvoorbeeld.|Should|4
 CH03|Controleer of er geen kleuren worden gebruikt in operaties (plus, min en keer).|Should|4
-CH04|Controleer of bij declaraties het type van de waarde klopt bij de stijleigenschap. Declaraties zoals width: #ff0000 of color: 12px zijn natuurlijk onzin.|Should|4
+CH04|Controleer of bij CSS-declaraties het type van de value klopt met de property. CSS-declaraties zoals `width: #ff0000` of `color: 12px` zijn natuurlijk onzin.|Should|4
 CH05|Controleer of de conditie bij een if-statement van het type boolean is (zowel bij een variabele-referentie als een boolean literal)|Should|4
 
 Als je deze deeleisen geimplementeerd hebt kun je nu ook controleren of de input ICSS semantisch klopt. Voor de volgende fases in de compiler kun je er dus van uit gaan dat je met een correcte AST en gevulde symboltable verder kunt werken.
@@ -84,7 +84,7 @@ Per GE onderdeel kun je 0 of 5 punten krijgen.
 ID  |Omschrijving|Prio |Punten
 ----|--------------------------------------------------------------------|------|------
 GE01|Implementeer de generator in nl.han.ica.icss.generator.Generator die de AST naar een CSS2-compliant string omzet.|Must|5
-GE02|Voor zover nodig, verbeter je generator zo dat de stijlregels met nette indenting geprint worden.|Should|5
+GE02|Voor zover nodig, verbeter je generator zo dat de CSS-declaraties met twee spaties inspringing per block geprint worden.|Should|5
 
 ### 4.6 Eigen uitbreidingen (10 punten)
 Je mag een eigen taaluitbreiding bedenken en implementeren. Je spreekt met de docent af hoeveel extra punten je voor je idee kunt halen. Met deze eigen functionaliteiten kun je maximaal 10 punten verdienen.
@@ -101,13 +101,13 @@ Dit document beschrijft op informele wijze mogelijkheden van de ICSS-19-SEP vers
 
 ## Eenvoudige opmaak
 ICSS gebruikt net als CSS regels om de opmaak van HTML elementen aan te geven. Een stylesheet bestaat uit een aantal regels die na elkaar worden toegepast op een HTML document.
-Regels hebben de vorm `<selector> { <declaraties> }`. Hierin is de selector ofwel een specifiek type tag die geselecteerd kan worden, ofwel een element met een unieke id, ofwel elementen van een bepaalde class. Elementen met een uniek id worden aangegeven door een identifier beginnend met een hekje (`#`) en elementen in een class worden aangegeven door de klassenamen voorafgegaan door een punt (`.`). Declaraties zijn naam/waarde paren van de vorm `<attribuutnaam>: <waarde>;`. Sommige waardes kunnen ook een eenheid bevatten zoals `px` of `%`.
+Regels hebben de vorm `<selector> { <declaraties> }`. Hierin is de selector ofwel een specifiek type tag die geselecteerd kan worden, ofwel een element met een unieke id, ofwel elementen van een bepaalde class. Elementen met een uniek id worden aangegeven door een identifier beginnend met een hekje (`#`) en elementen in een class worden aangegeven door de klassenamen voorafgegaan door een punt (`.`). CSS-declaraties zijn naam/waarde paren van de vorm `<property>: <value>;`. Sommige waardes kunnen ook een eenheid bevatten zoals `px` of `%`.
 Hier volgen een aantal voorbeelden van eenvoudige ICSS regels:
 
 ```
 a {
 	color: #ff0000;
-	background - color: #eeeeee;
+	background-color: #eeeeee;
 }
 #menu {
 	width: 100%; height: 50px;
@@ -123,7 +123,7 @@ ICSS is beperkter dan CSS. Dit zijn de beperkingen:
 * Selectoren zijn allemaal lowercase.
 * Selectoren selecteren maar op één ding tegelijk. Combinaties zoals `a.active` zijn niet toegestaan.
 * Selectoren voor het selecteren van kinderen uit CSS zoals `div > a` zijn niet toegestaan
-* Alleen de stijlattributen `color`,`background-color`, `width` en `height` zijn toegestaan.
+* Alleen de properties `color`, `background-color`, `width` en `height` zijn toegestaan.
 * Voor kleuren (`color` en `background-color`) moet de waarde als een hexadecimale waarde van zes tekens opgegeven worden. (Bijvoorbeeld: `#00ff00`)
 * Voor groottes mag of een waarde in pixels (bijvoorbeeld: `100px`) of een percentage (bijvoorbeeld `50%`) gespecifieerd worden.
 
@@ -142,16 +142,17 @@ UseColor := TRUE;
 SetHeight := FALSE;
 ```
 
-Variabelenamen beginnen altijd met een hoofdletter. Variabelen mogen zowel direct in de body van een stylesheet gedefinieerd worden, als binnen een stijlregel. Als een assignment binnen een regel gebeurt is de scope van die assignment beperkt tot enkel die regel.
+Variabelenamen beginnen altijd met een hoofdletter. Variabelen mogen zowel direct in de body van een stylesheet gedefinieerd worden, als binnen een CSS-rule. Als een assignment binnen een regel gebeurt is de scope van die assignment beperkt tot enkel die regel.
 
-## IF-statements
-If-statements mogen alleen voorkomen binnen styleregels. Binnen If-statements mogen andere If-statements voorkomen. Een If-statement heeft de volgende syntax: `if [<expression>] { <body> }` waarbij de body dezelfde elementen mag bevatten als een stijlregel. De accolades zijn altijd verplicht (dat is dus anders dan in bijvoorbeeld Java).
+## If-statements
+If-statements mogen alleen voorkomen binnen CSS-rules. Binnen If-statements mogen andere If-statements voorkomen. Een If-statement heeft de volgende syntaxis: `if [<expression>] { <body> }` waarbij de `<body>` dezelfde elementen mag bevatten als een de body van CSS-rule. De accolades zijn altijd verplicht (dat is dus anders dan in bijvoorbeeld Java).
 
-Voorbeeld van een stijlregel met if-statements:
+Voorbeeld van een CSS-rule met if-statements:
 
 ```
-ParWidth: 50px;
+ParWidth := 50px;
 AdjustColor := TRUE;
+LinkColor := #000000;
 
 p {
 	background-color: #ffffff;
@@ -164,7 +165,7 @@ p {
 	}
 }
 ```
-Bovenstaand voorbeeld vertaalt naar de volgende geldende CSS2:
+Bovenstaand voorbeeld vertaald naar de volgende CSS2:
 
 ```
 p {
@@ -175,7 +176,8 @@ p {
 ```
 
 ## Berekende waardes
-Een andere uitbreiding in ICSS is de mogelijkheid om eenvoudige berekeningen te doen met waardes. In ICSS mag je pixelwaardes en percentages optellen en aftrekken en vermenigvuldigen. Dit mag zowel in stijldeclaraties van attributen als in assignments van variabelen.
+Een andere uitbreiding in ICSS is de mogelijkheid om eenvoudige berekeningen te doen met waardes. In ICSS mag je pixelwaardes en percentages optellen en aftrekken en vermenigvuldigen. Dit mag zowel in CSS-declaraties als in assignments van variabelen.
+
 Bijvoorbeeld:
 
 ```
@@ -192,7 +194,7 @@ of
 Menusize := Headersize - 20%;
 ```
 
-Je mag alleen pixelwaardes bij pixelwaardes optellen en percentages bij percentages. Kleuren kun je niet optellen. Vermenigvuldigen gaat met scalaire waarden zoals 42 of 3. Die kun je onderling ook optellen of vermenigvuldigen. Je mag deze waarden natuurlijk niet gebruiken als waarde van attributen. Let op, de gebruikelijke rekenregels moeten gelden voor optellen en vermenigvuldigen. Vermenigvuldigen gaat boven optellen en aftrekken.
+Je mag alleen pixelwaardes bij pixelwaardes optellen en percentages bij percentages. Kleuren kun je niet optellen. Vermenigvuldigen gaat met minstens 1 scalaire waarde als operand, zoals 42 of 3. Je mag deze waarden natuurlijk niet gebruiken als waarde van properties, want dan hebben ze geen eenheid (bijv. `px`). Let op, de gebruikelijke rekenregels moeten gelden voor optellen en vermenigvuldigen. Vermenigvuldigen gaat boven optellen en aftrekken.
 
 
 
