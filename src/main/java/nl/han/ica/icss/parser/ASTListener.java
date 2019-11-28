@@ -50,7 +50,6 @@ public class ASTListener extends ICSSBaseListener {
         this.addChildToParent(new IdSelector(ctx.getText()));
     }
 
-
     @Override
     public void enterTagSelector(ICSSParser.TagSelectorContext ctx) {
         this.addChildToParent(new TagSelector(ctx.getText()));

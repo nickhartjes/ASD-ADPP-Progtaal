@@ -14,6 +14,8 @@ jobs:
       with:
         java-version: 13
     - name: Generate sources from Antlr
-      run: mvn clean generate-sources -f ./src/pom.xml
+      run: mvn clean generate-sources
     - name: Compile with Maven
-      run: mvn compile -f ./src/pom.xml
+      run: mvn compile
+    - name: Test with Maven
+      run: mvn test
