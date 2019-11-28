@@ -133,10 +133,7 @@ public class ASTListener extends ICSSBaseListener {
 	@Override
 	public void enterVariableAssignment(ICSSParser.VariableAssignmentContext ctx) {
 		super.enterVariableAssignment(ctx);
-		ASTNode parent = this.currentContainer.peek();
-		var variableAssignment = new VariableAssignment();
-		parent.addChild(variableAssignment);
-		this.add(variableAssignment);
+		this.add(new VariableAssignment());
 	}
 
 	@Override
