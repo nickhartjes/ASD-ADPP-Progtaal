@@ -2,9 +2,13 @@ package nl.han.ica.icss.parser;
 
 import nl.han.ica.icss.ast.*;
 import nl.han.ica.icss.ast.literals.*;
+import nl.han.ica.icss.ast.operations.AddOperation;
+import nl.han.ica.icss.ast.operations.MultiplyOperation;
+import nl.han.ica.icss.ast.operations.SubtractOperation;
 import nl.han.ica.icss.ast.selectors.ClassSelector;
 import nl.han.ica.icss.ast.selectors.IdSelector;
 import nl.han.ica.icss.ast.selectors.TagSelector;
+import nl.han.ica.icss.ast.types.ExpressionType;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -107,8 +111,34 @@ public class ASTListener extends ICSSBaseListener {
         this.addChildToParent(new VariableReference(ctx.getText()));
     }
 
+    @Override
+    public void enterSelector(ICSSParser.SelectorContext ctx) {
+        super.enterSelector(ctx);
+    }
+
+    @Override
+    public void enterMultiplyOperation(ICSSParser.MultiplyOperationContext ctx) {
+        MultiplyOperation multiplyOperation = new MultiplyOperation();
+        this.addChildToParent(multiplyOperation);
+        this.pushToContainer(multiplyOperation);
+    }
+
+    @Override
+    public void enterAddOperation(ICSSParser.AddOperationContext ctx) {
+        AddOperation addOperation = new AddOperation();
+        this.addChildToParent(addOperation);
+        this.pushToContainer(addOperation);
+    }
+
+    @Override
+    public void enterSubstractOperation(ICSSParser.SubstractOperationContext ctx) {
+        SubtractOperation subtractOperation = new SubtractOperation();
+        this.addChildToParent(subtractOperation);
+        this.pushToContainer(subtractOperation);
+    }
+
     private void addToTree(ASTNode node) {
-        this.currentContainer.push(node);
+        this.pushToContainer(node);
         this.ast.root.addChild(node);
     }
 
@@ -116,5 +146,9 @@ public class ASTListener extends ICSSBaseListener {
         if (this.currentContainer.peek() != null) {
             this.currentContainer.peek().addChild(astNode);
         }
+    }
+
+    private void pushToContainer(ASTNode node){
+        this.currentContainer.push(node);
     }
 }

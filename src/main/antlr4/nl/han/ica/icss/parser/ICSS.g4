@@ -50,7 +50,7 @@ idSelector          : ID_IDENT;
 tagSelector         : LOWER_IDENT;
 
 // Declaration
-declaration         : propertyName COLON literal SEMICOLON;
+declaration         : propertyName COLON expression SEMICOLON;
 propertyName        : LOWER_IDENT;
 literal             : pixelLiteral | percentageLiteral | colorLiteral | scalarLiteral | boolLiteral | variableReference;
 pixelLiteral        : PIXELSIZE;
@@ -59,7 +59,11 @@ colorLiteral        : COLOR;
 scalarLiteral       : SCALAR;
 boolLiteral         : TRUE | FALSE;
 
-variableAssignment  : variableReference ASSIGNMENT_OPERATOR literal SEMICOLON;
+variableAssignment  : variableReference ASSIGNMENT_OPERATOR expression SEMICOLON;
 variableReference   : CAPITAL_IDENT;
 
-expression          : literal;
+expression          : literal | operation;
+operation           : multiplyOperation | addOperation | substractOperation;
+multiplyOperation   : literal MUL literal | literal MUL operation;
+addOperation        : literal PLUS literal | literal PLUS operation;
+substractOperation  : literal MIN literal | literal MIN operation;

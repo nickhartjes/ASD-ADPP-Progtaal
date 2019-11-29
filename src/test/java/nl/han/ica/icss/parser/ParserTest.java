@@ -75,7 +75,6 @@ class ParserTest {
         assertEquals(exp, sut);
     }
 
-	@Disabled
     @Test
     void testParseLevel2() throws IOException {
 
