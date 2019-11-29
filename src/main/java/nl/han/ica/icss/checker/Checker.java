@@ -1,10 +1,7 @@
 package nl.han.ica.icss.checker;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-
-import nl.han.ica.icss.ast.*;
-import nl.han.ica.icss.ast.types.*;
+import nl.han.ica.icss.ast.AST;
+import nl.han.ica.icss.ast.ASTNode;
 
 public class Checker {
 
@@ -13,9 +10,9 @@ public class Checker {
         this.checkAstNode(root);
     }
 
-    private void checkAstNode(ASTNode node){
+    private void checkAstNode(ASTNode node) {
         node.check();
-        for (ASTNode x : node.getChildren()){
+        for (ASTNode x : node.getChildren()) {
             this.checkAstNode(x);
         }
     }

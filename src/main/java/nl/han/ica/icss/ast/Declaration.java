@@ -1,7 +1,6 @@
 package nl.han.ica.icss.ast;
 
 import nl.han.ica.icss.ast.types.ExpressionType;
-import nl.han.ica.icss.checker.SemanticError;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -79,17 +78,17 @@ public class Declaration extends ASTNode {
         return Objects.hash(property, expression);
     }
 
-	@Override
-	public String getCssString(ASTNode parent) {
-    	StringBuilder stringBuilder = new StringBuilder();
+    @Override
+    public String getCssString(ASTNode parent) {
+        StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("{");
         stringBuilder.append(this.property.name);
         stringBuilder.append(" : ");
-        Literal literal = (Literal)this.expression;
+        Literal literal = (Literal) this.expression;
         stringBuilder.append((literal.getValue()));
         stringBuilder.append(";");
         stringBuilder.append("}");
-		return stringBuilder.toString();
-	}
+        return stringBuilder.toString();
+    }
 }

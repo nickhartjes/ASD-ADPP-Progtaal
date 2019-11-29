@@ -8,7 +8,6 @@ import nl.han.ica.icss.ast.operations.SubtractOperation;
 import nl.han.ica.icss.ast.selectors.ClassSelector;
 import nl.han.ica.icss.ast.selectors.IdSelector;
 import nl.han.ica.icss.ast.selectors.TagSelector;
-import nl.han.ica.icss.ast.types.ExpressionType;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -149,7 +148,6 @@ public class ASTListener extends ICSSBaseListener {
     }
 
 
-
     private void addToTree(ASTNode node) {
         this.pushToContainer(node);
         this.ast.root.addChild(node);
@@ -161,7 +159,7 @@ public class ASTListener extends ICSSBaseListener {
         }
     }
 
-    private void pushToContainer(ASTNode node){
+    private void pushToContainer(ASTNode node) {
         this.currentContainer.push(node);
     }
 }
