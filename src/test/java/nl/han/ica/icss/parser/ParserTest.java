@@ -83,7 +83,6 @@ class ParserTest {
         assertEquals(exp, sut);
     }
 
-	@Disabled
     @Test
     void testParseLevel3() throws IOException {
 

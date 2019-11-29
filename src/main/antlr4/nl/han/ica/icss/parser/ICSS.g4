@@ -41,7 +41,10 @@ ASSIGNMENT_OPERATOR: ':=';
 //--- PARSER: ---
 stylesheet          : variableAssignment* stylerule* EOF;
 
-stylerule           : selector OPEN_BRACE declaration* CLOSE_BRACE;
+stylerule           : selector styleruleScope;
+styleruleBody       : styleruleStatement*;
+styleruleStatement  : variableAssignment | declaration | ifClause;
+styleruleScope      : OPEN_BRACE styleruleBody CLOSE_BRACE;
 
 // Selectors
 selector            : classSelector | idSelector | tagSelector;
@@ -52,6 +55,8 @@ tagSelector         : LOWER_IDENT;
 // Declaration
 declaration         : propertyName COLON expression SEMICOLON;
 propertyName        : LOWER_IDENT;
+
+// Literals
 literal             : pixelLiteral | percentageLiteral | colorLiteral | scalarLiteral | boolLiteral | variableReference;
 pixelLiteral        : PIXELSIZE;
 percentageLiteral   : PERCENTAGE;
@@ -59,11 +64,18 @@ colorLiteral        : COLOR;
 scalarLiteral       : SCALAR;
 boolLiteral         : TRUE | FALSE;
 
+// Variable
 variableAssignment  : variableReference ASSIGNMENT_OPERATOR expression SEMICOLON;
 variableReference   : CAPITAL_IDENT;
 
-expression          : literal | operation;
+// Expressions
+expression          : literal | operation | variableReference;
+
+// Operators
 operation           : multiplyOperation | addOperation | substractOperation;
 multiplyOperation   : literal MUL literal | literal MUL operation;
 addOperation        : literal PLUS literal | literal PLUS operation;
 substractOperation  : literal MIN literal | literal MIN operation;
+
+// If
+ifClause: IF BOX_BRACKET_OPEN expression BOX_BRACKET_CLOSE styleruleScope;
