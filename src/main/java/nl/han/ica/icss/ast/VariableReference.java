@@ -34,7 +34,11 @@ public class VariableReference extends Expression {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(name);
+    }
+
+    @Override
+    public boolean check() {
+        return super.check();
     }
 }

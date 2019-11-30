@@ -12,7 +12,6 @@ public class IfClause extends ASTNode {
     }
 
     public IfClause(Expression conditionalExpression, ArrayList<ASTNode> body) {
-
         this.conditionalExpression = conditionalExpression;
         this.body = body;
     }
@@ -59,4 +58,5 @@ public class IfClause extends ASTNode {
     public Expression getConditionalExpression() {
         return conditionalExpression;
     }
+
 }

@@ -23,12 +23,19 @@ class ParserInstructorTest {
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_WHITE = "\u001B[37m";
 
-    private void diffMatch(String fi, String last) {
+    private void diffMatch(String expected, String generated) {
         DiffMatchPatch dmp = new DiffMatchPatch();
         StringBuilder stringBuilder = new StringBuilder();
-        LinkedList<DiffMatchPatch.Diff> diff = dmp.diffMain(fi, last);
+        LinkedList<DiffMatchPatch.Diff> diff = dmp.diffMain(expected, generated);
         dmp.diffCleanupSemantic(diff);
 
+        stringBuilder.append("Expected: \n");
+        stringBuilder.append(expected);
+        stringBuilder.append("\n\n");
+        stringBuilder.append("Generated: \n");
+        stringBuilder.append(generated);
+        stringBuilder.append("\n\n");
+        stringBuilder.append("Diff: \n");
         stringBuilder.append(ANSI_RESET);
         for (DiffMatchPatch.Diff item : diff) {
             switch (item.operation) {
@@ -50,6 +57,7 @@ class ParserInstructorTest {
 
     private Pipeline readPipeline(final Path path) throws IOException {
         final String inputTest = Files.readString(path);
+        System.out.println(inputTest);
         final Pipeline pipeline = new Pipeline();
         pipeline.parseString(inputTest);
         return pipeline;
@@ -355,7 +363,6 @@ class ParserInstructorTest {
         parseCheckTransformGenerate(path, astExpected, cssExpected);
     }
 
-    @Disabled
     @Test
     void testGE01T1() throws IOException, URISyntaxException {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()

@@ -106,13 +106,16 @@ public class ASTListener extends ICSSBaseListener {
     }
 
     @Override
-    public void enterVariableReference(ICSSParser.VariableReferenceContext ctx) {
-        this.addChildToParent(new VariableReference(ctx.getText()));
+    public void exitVariableAssignment(ICSSParser.VariableAssignmentContext ctx) {
+        ASTNode node =this.currentContainer.peek();
+        if( node instanceof VariableAssignment) {
+            this.ast.addVariable((VariableAssignment)node);
+        }
     }
 
     @Override
-    public void enterSelector(ICSSParser.SelectorContext ctx) {
-        super.enterSelector(ctx);
+    public void enterVariableReference(ICSSParser.VariableReferenceContext ctx) {
+        this.addChildToParent(new VariableReference(ctx.getText()));
     }
 
     @Override
@@ -143,6 +146,7 @@ public class ASTListener extends ICSSBaseListener {
             this.currentContainer.pop();
         }
         IfClause ifClause = new IfClause();
+        ifClause.conditionalExpression = new BoolLiteral("FALSE");
         this.addChildToParent(ifClause);
         this.pushToContainer(ifClause);
     }

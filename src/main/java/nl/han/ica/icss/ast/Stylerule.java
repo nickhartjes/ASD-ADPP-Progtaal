@@ -56,4 +56,18 @@ public class Stylerule extends ASTNode {
     public int hashCode() {
         return Objects.hash(selectors, body);
     }
+
+    @Override
+    public String getCssString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Selector selector : this.selectors) {
+            stringBuilder.append(selector.getCssString());
+        }
+        stringBuilder.append(" {\n");
+        for (ASTNode node : this.body) {
+            stringBuilder.append(node.getCssString());
+        }
+        stringBuilder.append("}\n");
+        return stringBuilder.toString();
+    }
 }

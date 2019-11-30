@@ -79,16 +79,13 @@ public class Declaration extends ASTNode {
     }
 
     @Override
-    public String getCssString(ASTNode parent) {
+    public String getCssString() {
         StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append("{");
-        stringBuilder.append(this.property.name);
-        stringBuilder.append(" : ");
-        Literal literal = (Literal) this.expression;
-        stringBuilder.append((literal.getValue()));
-        stringBuilder.append(";");
-        stringBuilder.append("}");
+        stringBuilder.append("\t");
+        stringBuilder.append(this.property.getCssString());
+        stringBuilder.append(": ");
+        stringBuilder.append(this.expression.getCssString());
+        stringBuilder.append(";\n");
         return stringBuilder.toString();
     }
 }

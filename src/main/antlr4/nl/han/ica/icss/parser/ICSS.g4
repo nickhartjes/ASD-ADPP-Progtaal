@@ -69,13 +69,13 @@ variableAssignment  : variableReference ASSIGNMENT_OPERATOR expression SEMICOLON
 variableReference   : CAPITAL_IDENT;
 
 // Expressions
-expression          : literal | operation | variableReference;
+expression          : ifClause | variableReference | literal | operation;
 
 // Operators
-operation           : multiplyOperation | addOperation | substractOperation;
+operation           : multiplyOperation | substractOperation | addOperation;
 multiplyOperation   : literal MUL literal | literal MUL operation;
 addOperation        : literal PLUS literal | literal PLUS operation;
 substractOperation  : literal MIN literal | literal MIN operation;
 
 // If
-ifClause: IF BOX_BRACKET_OPEN expression BOX_BRACKET_CLOSE styleruleScope;
+ifClause            : IF BOX_BRACKET_OPEN expression BOX_BRACKET_CLOSE styleruleScope;

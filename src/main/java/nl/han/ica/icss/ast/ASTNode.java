@@ -94,7 +94,7 @@ public class ASTNode implements Checkable, CssGenerator {
     }
 
     @Override
-    public String getCssString(ASTNode parent) {
+    public String getCssString() {
         return "";
     }
 }

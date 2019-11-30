@@ -35,7 +35,7 @@ public class TagSelector extends Selector {
     }
 
     @Override
-    public String getCssString(ASTNode parent) {
+    public String getCssString() {
         return this.tag;
     }
 }

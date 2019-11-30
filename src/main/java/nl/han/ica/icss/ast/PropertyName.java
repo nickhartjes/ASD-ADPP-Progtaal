@@ -18,4 +18,9 @@ public class PropertyName extends ASTNode {
     public String getNodeLabel() {
         return "Property: (" + name + ")";
     }
+
+    @Override
+    public String getCssString() {
+        return name;
+    }
 }

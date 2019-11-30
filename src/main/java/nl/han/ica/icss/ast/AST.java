@@ -3,6 +3,7 @@ package nl.han.ica.icss.ast;
 import nl.han.ica.icss.checker.SemanticError;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class AST {
@@ -17,11 +18,17 @@ public class AST {
         root = stylesheet;
     }
 
+    private List<VariableAssignment> variables = new ArrayList<>();
+
+    public void addVariable(VariableAssignment variableAssignment) {
+        this.variables.add(variableAssignment);
+    }
+
     public void setRoot(Stylesheet stylesheet) {
         root = stylesheet;
     }
 
-    public ArrayList<SemanticError> getErrors() {
+    public List<SemanticError> getErrors() {
         ArrayList<SemanticError> errors = new ArrayList<>();
         collectErrors(errors, root);
         return errors;
@@ -52,5 +59,18 @@ public class AST {
     @Override
     public int hashCode() {
         return Objects.hash(root);
+    }
+
+    public String generateCss() {
+        return this.cssBuilder();
+    }
+
+    private String cssBuilder() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("/* Generated from ICSS, do not edit */\n\n");
+        for (ASTNode node : this.root.getChildren()) {
+            stringBuilder.append(node.getCssString());
+        }
+        return stringBuilder.toString();
     }
 }
