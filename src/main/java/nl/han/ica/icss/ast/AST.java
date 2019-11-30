@@ -9,6 +9,7 @@ import java.util.Objects;
 public class AST {
     //The root of the tree
     public Stylesheet root;
+    private List<VariableAssignment> variables = new ArrayList<>();
 
     public AST() {
         root = new Stylesheet();
@@ -17,8 +18,6 @@ public class AST {
     public AST(Stylesheet stylesheet) {
         root = stylesheet;
     }
-
-    private List<VariableAssignment> variables = new ArrayList<>();
 
     public void addVariable(VariableAssignment variableAssignment) {
         this.variables.add(variableAssignment);

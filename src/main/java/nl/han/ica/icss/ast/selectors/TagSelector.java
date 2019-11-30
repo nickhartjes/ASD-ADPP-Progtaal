@@ -1,6 +1,5 @@
 package nl.han.ica.icss.ast.selectors;
 
-import nl.han.ica.icss.ast.ASTNode;
 import nl.han.ica.icss.ast.Selector;
 
 import java.util.Objects;

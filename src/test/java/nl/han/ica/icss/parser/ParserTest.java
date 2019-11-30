@@ -5,9 +5,7 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
 
 import java.io.IOException;
 import java.io.InputStream;

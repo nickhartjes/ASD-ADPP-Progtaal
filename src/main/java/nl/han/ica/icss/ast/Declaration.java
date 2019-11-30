@@ -81,7 +81,7 @@ public class Declaration extends ASTNode {
     @Override
     public String getCssString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("\t");
+        stringBuilder.append("  ");
         stringBuilder.append(this.property.getCssString());
         stringBuilder.append(": ");
         stringBuilder.append(this.expression.getCssString());

@@ -107,9 +107,9 @@ public class ASTListener extends ICSSBaseListener {
 
     @Override
     public void exitVariableAssignment(ICSSParser.VariableAssignmentContext ctx) {
-        ASTNode node =this.currentContainer.peek();
-        if( node instanceof VariableAssignment) {
-            this.ast.addVariable((VariableAssignment)node);
+        ASTNode node = this.currentContainer.peek();
+        if (node instanceof VariableAssignment) {
+            this.ast.addVariable((VariableAssignment) node);
         }
     }
 
