@@ -7,13 +7,13 @@ public class Checker {
 
     public void check(AST ast) {
         ASTNode root = ast.root;
-        this.checkAstNode(root);
+        this.checkAstNode(root, ast);
     }
 
-    private void checkAstNode(ASTNode node) {
-        node.check();
+    private void checkAstNode(ASTNode node, AST ast) {
+        node.check(ast);
         for (ASTNode x : node.getChildren()) {
-            this.checkAstNode(x);
+            this.checkAstNode(x, ast);
         }
     }
 }

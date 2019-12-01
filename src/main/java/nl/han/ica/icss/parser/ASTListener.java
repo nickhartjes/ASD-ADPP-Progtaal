@@ -109,7 +109,7 @@ public class ASTListener extends ICSSBaseListener {
     public void exitVariableAssignment(ICSSParser.VariableAssignmentContext ctx) {
         ASTNode node = this.currentContainer.peek();
         if (node instanceof VariableAssignment) {
-            this.ast.addVariable((VariableAssignment) node);
+            this.ast.addVariable(((VariableAssignment) node).name, ((VariableAssignment) node).expression );
         }
     }
 
@@ -150,6 +150,8 @@ public class ASTListener extends ICSSBaseListener {
         this.addChildToParent(ifClause);
         this.pushToContainer(ifClause);
     }
+
+
 
 
     private void addToTree(ASTNode node) {

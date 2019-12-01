@@ -2,14 +2,12 @@ package nl.han.ica.icss.ast;
 
 import nl.han.ica.icss.checker.SemanticError;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class AST {
     //The root of the tree
     public Stylesheet root;
-    private List<VariableAssignment> variables = new ArrayList<>();
+    private Map<VariableReference, Expression> variables = new HashMap<>();
 
     public AST() {
         root = new Stylesheet();
@@ -19,8 +17,12 @@ public class AST {
         root = stylesheet;
     }
 
-    public void addVariable(VariableAssignment variableAssignment) {
-        this.variables.add(variableAssignment);
+    public void addVariable(VariableReference variableReference, Expression expression) {
+        this.variables.put(variableReference, expression);
+    }
+
+    public Expression getVariable(VariableReference variableReference) {
+        return variables.get(variableReference);
     }
 
     public void setRoot(Stylesheet stylesheet) {

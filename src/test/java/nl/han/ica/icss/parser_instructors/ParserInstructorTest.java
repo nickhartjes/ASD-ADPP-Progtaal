@@ -74,11 +74,14 @@ class ParserInstructorTest {
         return pipeline;
     }
 
-    private Pipeline syntaxCheck(final Path path, boolean isValid) throws IOException {
+    private Pipeline syntaxCheck(final Path path, final String astExpected, boolean isValid) throws IOException {
         // Get the pipeline
-        final Pipeline pipeline = this.readPipeline(path);
+        final Pipeline pipeline = this.parseCheck(path, astExpected);
         assertEquals(pipeline.check(), isValid);
         assertEquals(pipeline.isChecked(), isValid);
+        for(String errors : pipeline.getErrors()) {
+            System.out.println(errors);
+        }
         return pipeline;
     }
 
@@ -99,7 +102,7 @@ class ParserInstructorTest {
                 .getResource("level0.icss")).toURI());
         final String astExpected = "[Stylesheet|[Stylerule|[TagSelector p|][Declaration|[Property: (background-color)|][Color literal (#ffffff)|]][Declaration|[Property: (width)|][Pixel literal (500)|]]][Stylerule|[TagSelector a|][Declaration|[Property: (color)|][Color literal (#ff0000)|]]][Stylerule|[IdSelector #menu|][Declaration|[Property: (width)|][Pixel literal (520)|]]][Stylerule|[ClassSelector .menu|][Declaration|[Property: (color)|][Color literal (#000000)|]]]]";
         parseCheck(path, astExpected);
-        syntaxCheck(path, true);
+        syntaxCheck(path, astExpected, true);
     }
 
     @Disabled
@@ -109,7 +112,7 @@ class ParserInstructorTest {
                 .getResource("level1.icss")).toURI());
         final String astExpected = "[Stylesheet|[VariableAssignment (LinkColor)|[VariableReference (LinkColor)|][Color literal (#ff0000)|]][VariableAssignment (ParWidth)|[VariableReference (ParWidth)|][Pixel literal (500)|]][VariableAssignment (AdjustColor)|[VariableReference (AdjustColor)|][Bool Literal (TRUE)|]][VariableAssignment (UseLinkColor)|[VariableReference (UseLinkColor)|][Bool Literal (FALSE)|]][Stylerule|[TagSelector p|][Declaration|[Property: (background-color)|][Color literal (#ffffff)|]][Declaration|[Property: (width)|][VariableReference (ParWidth)|]]][Stylerule|[TagSelector a|][Declaration|[Property: (color)|][VariableReference (LinkColor)|]]][Stylerule|[IdSelector #menu|][Declaration|[Property: (width)|][Pixel literal (520)|]]][Stylerule|[ClassSelector .menu|][Declaration|[Property: (color)|][Color literal (#000000)|]]]]";
         parseCheck(path, astExpected);
-        syntaxCheck(path, true);
+        syntaxCheck(path, astExpected, true);
     }
 
     @Disabled
@@ -119,7 +122,7 @@ class ParserInstructorTest {
                 .getResource("level2.icss")).toURI());
         final String astExpected = "[Stylesheet|[VariableAssignment (LinkColor)|[VariableReference (LinkColor)|][Color literal (#ff0000)|]][VariableAssignment (ParWidth)|[VariableReference (ParWidth)|][Pixel literal (500)|]][VariableAssignment (AdjustColor)|[VariableReference (AdjustColor)|][Bool Literal (TRUE)|]][VariableAssignment (UseLinkColor)|[VariableReference (UseLinkColor)|][Bool Literal (FALSE)|]][Stylerule|[TagSelector p|][Declaration|[Property: (background-color)|][Color literal (#ffffff)|]][Declaration|[Property: (width)|][VariableReference (ParWidth)|]]][Stylerule|[TagSelector a|][Declaration|[Property: (color)|][VariableReference (LinkColor)|]]][Stylerule|[IdSelector #menu|][Declaration|[Property: (width)|][Add|[VariableReference (ParWidth)|][Multiply|[Scalar literal (2)|][Pixel literal (10)|]]]]][Stylerule|[ClassSelector .menu|][Declaration|[Property: (color)|][Color literal (#000000)|]]]]";
         parseCheck(path, astExpected);
-        syntaxCheck(path, true);
+        syntaxCheck(path, astExpected, true);
     }
 
     @Disabled
@@ -129,7 +132,7 @@ class ParserInstructorTest {
                 .getResource("level3.icss")).toURI());
         final String astExpected = "[Stylesheet|[VariableAssignment (LinkColor)|[VariableReference (LinkColor)|][Color literal (#ff0000)|]][VariableAssignment (ParWidth)|[VariableReference (ParWidth)|][Pixel literal (500)|]][VariableAssignment (AdjustColor)|[VariableReference (AdjustColor)|][Bool Literal (TRUE)|]][VariableAssignment (UseLinkColor)|[VariableReference (UseLinkColor)|][Bool Literal (FALSE)|]][Stylerule|[TagSelector p|][Declaration|[Property: (background-color)|][Color literal (#ffffff)|]][Declaration|[Property: (width)|][VariableReference (ParWidth)|]][If_Clause|[VariableReference (AdjustColor)|][Declaration|[Property: (color)|][Color literal (#124532)|]][If_Clause|[VariableReference (UseLinkColor)|][Declaration|[Property: (background-color)|][VariableReference (LinkColor)|]]]]][Stylerule|[TagSelector a|][Declaration|[Property: (color)|][VariableReference (LinkColor)|]]][Stylerule|[IdSelector #menu|][Declaration|[Property: (width)|][Add|[VariableReference (ParWidth)|][Pixel literal (20)|]]]][Stylerule|[ClassSelector .menu|][Declaration|[Property: (color)|][Color literal (#000000)|]][Declaration|[Property: (background-color)|][VariableReference (LinkColor)|]]]]";
         parseCheck(path, astExpected);
-        syntaxCheck(path, true);
+        syntaxCheck(path, astExpected, true);
     }
 
     @Test
@@ -238,7 +241,7 @@ class ParserInstructorTest {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
                 .getResource("CH01-T1.icss")).toURI());
         final String astExpected = "[Stylesheet|[Stylerule|[TagSelector span|][Declaration|[Property: (color)|][VariableReference (LinkColor)|]]]]";
-        syntaxCheck(path, false);
+        syntaxCheck(path, astExpected, false);
     }
 
     @Test
@@ -246,7 +249,7 @@ class ParserInstructorTest {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
                 .getResource("CH01-T2.icss")).toURI());
         final String astExpected = "[Stylesheet|[VariableAssignment (LinkColor)|[VariableReference (LinkColor)|][Color literal (#ff00ff)|]][VariableAssignment (LinkColorTwo)|[VariableReference (LinkColorTwo)|][VariableReference (LinkColor)|]][VariableAssignment (LinkColorThree)|[VariableReference (LinkColorThree)|][VariableReference (LankColor)|]][Stylerule|[TagSelector span|][Declaration|[Property: (color)|][VariableReference (LinkColor)|]]]]";
-        syntaxCheck(path, false);
+        syntaxCheck(path, astExpected, false);
     }
 
     @Test
@@ -254,7 +257,7 @@ class ParserInstructorTest {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
                 .getResource("CH02-T1.icss")).toURI());
         final String astExpected = "[Stylesheet|[Stylerule|[TagSelector a|][Declaration|[Property: (width)|][Add|[Add|[Pixel literal (20)|][Pixel literal (10)|]][Scalar literal (2)|]]]]]";
-        syntaxCheck(path, false);
+        syntaxCheck(path, astExpected, false);
     }
 
     @Test
@@ -262,7 +265,7 @@ class ParserInstructorTest {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
                 .getResource("CH02-T2.icss")).toURI());
         final String astExpected = "[Stylesheet|[VariableAssignment (Width)|[VariableReference (Width)|][Pixel literal (10)|]][Stylerule|[TagSelector a|][Declaration|[Property: (width)|][Multiply|[Pixel literal (20)|][VariableReference (Width)|]]]]]";
-        syntaxCheck(path, false);
+        syntaxCheck(path, astExpected, false);
     }
 
     @Test
@@ -270,7 +273,7 @@ class ParserInstructorTest {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
                 .getResource("CH03-T1.icss")).toURI());
         final String astExpected = "[Stylesheet|[Stylerule|[TagSelector p|][Declaration|[Property: (color)|][Add|[Color literal (#000000)|][Color literal (#ff00ff)|]]]]]";
-        syntaxCheck(path, false);
+        syntaxCheck(path, astExpected, false);
     }
 
     @Test
@@ -278,7 +281,7 @@ class ParserInstructorTest {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
                 .getResource("CH03-T2.icss")).toURI());
         final String astExpected = "[Stylesheet|[VariableAssignment (Color)|[VariableReference (Color)|][Color literal (#ff00ff)|]][Stylerule|[TagSelector p|][Declaration|[Property: (width)|][Add|[Pixel literal (20)|][VariableReference (Color)|]]]]]";
-        syntaxCheck(path, false);
+        syntaxCheck(path, astExpected, false);
     }
 
     @Disabled
@@ -287,7 +290,7 @@ class ParserInstructorTest {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
                 .getResource("CH04-T1.icss")).toURI());
         final String astExpected = "[Stylesheet|[Stylerule|[TagSelector span|][Declaration|[Property: (color)|][Pixel literal (100)|]]]]";
-        syntaxCheck(path, true);
+        syntaxCheck(path, astExpected, true);
     }
 
     @Disabled
@@ -296,7 +299,7 @@ class ParserInstructorTest {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
                 .getResource("CH04-T2.icss")).toURI());
         final String astExpected = "[Stylesheet|[VariableAssignment (Color)|[VariableReference (Color)|][Color literal (#ff00ff)|]][Stylerule|[TagSelector span|][Declaration|[Property: (width)|][VariableReference (Color)|]]]]";
-        syntaxCheck(path, true);
+        syntaxCheck(path, astExpected, true);
     }
 
     @Disabled
@@ -370,14 +373,14 @@ class ParserInstructorTest {
         final String astExpected = "[Stylesheet|[Stylerule|[TagSelector p|][Declaration|[Property: (background-color)|][Color literal (#ffffff)|]][Declaration|[Property: (width)|][Pixel literal (10)|]]][Stylerule|[IdSelector #menu|][Declaration|[Property: (width)|][Pixel literal (100)|]]][Stylerule|[ClassSelector .menu|][Declaration|[Property: (color)|][Color literal (#000000)|]]]]";
         final String cssExpected = "/* Generated from ICSS, do not edit */\n\n" +
                 "p {\n" +
-                "\tbackground-color: #ffffff;\n" +
-                "\twidth: 10px;\n" +
+                "  background-color: #ffffff;\n" +
+                "  width: 10px;\n" +
                 "}\n" +
                 "#menu {\n" +
-                "\twidth: 100px;\n" +
+                "  width: 100px;\n" +
                 "}\n" +
                 ".menu {\n" +
-                "\tcolor: #000000;\n" +
+                "  color: #000000;\n" +
                 "}\n";
         parseCheckTransformGenerate(path, astExpected, cssExpected);
     }
