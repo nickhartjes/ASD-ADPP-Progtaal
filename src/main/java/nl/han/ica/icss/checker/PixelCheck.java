@@ -1,5 +1,7 @@
 package nl.han.ica.icss.checker;
 
+import java.util.Arrays;
+
 public enum PixelCheck {
     WIDTH("width");
 
@@ -10,11 +12,7 @@ public enum PixelCheck {
     }
 
     public static boolean valueOfLabel(String label) {
-        for (PixelCheck e : values()) {
-            if (e.label.equals(label)) {
-                return true;
-            }
-        }
-        return false;
+        return Arrays.stream(values())
+                .anyMatch(x -> x.label.equals(label));
     }
 }

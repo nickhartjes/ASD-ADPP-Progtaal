@@ -12,8 +12,6 @@ public class Checker {
 
     private void checkAstNode(ASTNode node, AST ast) {
         node.check(ast);
-        for (ASTNode x : node.getChildren()) {
-            this.checkAstNode(x, ast);
-        }
+        node.getChildren().forEach(astNode-> this.checkAstNode(astNode, ast));
     }
 }

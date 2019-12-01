@@ -57,11 +57,14 @@ public class Declaration extends ASTNode {
             case PIXEL:
                 result = PixelCheck.valueOfLabel(name);
                 break;
+            case UNDEFINED:
+                result = true;
+                break;
         }
 
         if (!result) {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("The value of '");
+            stringBuilder.append("The Expression value of '");
             stringBuilder.append(name);
             stringBuilder.append("' is incorrect");
             this.setError(stringBuilder.toString());

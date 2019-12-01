@@ -1,5 +1,7 @@
 package nl.han.ica.icss.checker;
 
+import java.util.Arrays;
+
 public enum ColorCheck {
     COLOR("color"),
     BACKGROUND_COLOR("background-color");
@@ -11,11 +13,7 @@ public enum ColorCheck {
     }
 
     public static boolean valueOfLabel(String label) {
-        for (ColorCheck e : values()) {
-            if (e.label.equals(label)) {
-                return true;
-            }
-        }
-        return false;
+        return Arrays.stream(values())
+                .anyMatch(x -> x.label.equals(label));
     }
 }

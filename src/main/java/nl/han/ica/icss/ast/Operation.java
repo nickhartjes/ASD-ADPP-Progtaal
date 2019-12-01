@@ -1,5 +1,7 @@
 package nl.han.ica.icss.ast;
 
+import nl.han.ica.icss.ast.literals.ColorLiteral;
+
 import java.util.ArrayList;
 
 public abstract class Operation extends Expression {
@@ -27,4 +29,12 @@ public abstract class Operation extends Expression {
         return this;
     }
 
+    @Override
+    public boolean check(AST ast) {
+        // Check for ColorLiteral
+        if(lhs instanceof ColorLiteral || rhs instanceof  ColorLiteral){
+            this.setError("Not possible to use a Colorliteral in a Operation");
+        }
+        return super.check(ast);
+    }
 }

@@ -25,6 +25,10 @@ public class AST {
         return variables.get(variableReference);
     }
 
+    public Map<VariableReference, Expression> getVariables() {
+        return variables;
+    }
+
     public void setRoot(Stylesheet stylesheet) {
         root = stylesheet;
     }
