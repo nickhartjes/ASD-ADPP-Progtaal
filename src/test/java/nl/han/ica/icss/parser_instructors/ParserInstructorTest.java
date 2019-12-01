@@ -252,6 +252,7 @@ class ParserInstructorTest {
         syntaxCheck(path, astExpected, false);
     }
 
+    @Disabled
     @Test
     void testCH02T1() throws IOException, URISyntaxException {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
@@ -284,13 +285,12 @@ class ParserInstructorTest {
         syntaxCheck(path, astExpected, false);
     }
 
-    @Disabled
     @Test
     void testCH04T1() throws IOException, URISyntaxException {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
                 .getResource("CH04-T1.icss")).toURI());
         final String astExpected = "[Stylesheet|[Stylerule|[TagSelector span|][Declaration|[Property: (color)|][Pixel literal (100)|]]]]";
-        syntaxCheck(path, astExpected, true);
+        syntaxCheck(path, astExpected, false);
     }
 
     @Disabled
@@ -299,7 +299,7 @@ class ParserInstructorTest {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
                 .getResource("CH04-T2.icss")).toURI());
         final String astExpected = "[Stylesheet|[VariableAssignment (Color)|[VariableReference (Color)|][Color literal (#ff00ff)|]][Stylerule|[TagSelector span|][Declaration|[Property: (width)|][VariableReference (Color)|]]]]";
-        syntaxCheck(path, astExpected, true);
+        syntaxCheck(path, astExpected, false);
     }
 
     @Disabled

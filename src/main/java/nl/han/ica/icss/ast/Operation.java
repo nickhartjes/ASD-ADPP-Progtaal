@@ -27,8 +27,4 @@ public abstract class Operation extends Expression {
         return this;
     }
 
-    @Override
-    public boolean check(AST ast) {
-        return super.check(ast);
-    }
 }

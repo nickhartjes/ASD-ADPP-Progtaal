@@ -146,7 +146,6 @@ public class ASTListener extends ICSSBaseListener {
             this.currentContainer.pop();
         }
         IfClause ifClause = new IfClause();
-        ifClause.conditionalExpression = new BoolLiteral("FALSE");
         this.addChildToParent(ifClause);
         this.pushToContainer(ifClause);
     }

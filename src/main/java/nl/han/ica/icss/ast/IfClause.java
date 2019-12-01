@@ -1,5 +1,7 @@
 package nl.han.ica.icss.ast;
 
+import nl.han.ica.icss.ast.literals.BoolLiteral;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -9,6 +11,7 @@ public class IfClause extends ASTNode {
     public ArrayList<ASTNode> body = new ArrayList<>();
 
     public IfClause() {
+        this.conditionalExpression = new BoolLiteral("FALSE");
     }
 
     public IfClause(Expression conditionalExpression, ArrayList<ASTNode> body) {
@@ -59,4 +62,16 @@ public class IfClause extends ASTNode {
         return conditionalExpression;
     }
 
+    @Override
+    public boolean check(AST ast) {
+        // Check if it's a variabele, if so get that value
+        if (this.conditionalExpression instanceof VariableReference) {
+            this.conditionalExpression = ast.getVariable((VariableReference) this.conditionalExpression);
+        }
+
+        if(!(this.conditionalExpression instanceof BoolLiteral)){
+            this.setError("If statement needs to be a BoolLiteral");
+        }
+        return false;
+    }
 }
