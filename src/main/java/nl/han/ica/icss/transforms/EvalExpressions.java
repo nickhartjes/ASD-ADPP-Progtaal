@@ -2,35 +2,30 @@ package nl.han.ica.icss.transforms;
 
 import nl.han.ica.icss.ast.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class EvalExpressions implements Transform {
-
-    private Map<VariableReference, Expression> variableValues;
-
-    public EvalExpressions() {
-        variableValues = new HashMap<>();
-    }
 
     @Override
     public void apply(AST ast) {
-        this.applyToNode(ast.root, ast);
+        this.applyToNode(ast.root, ast, ast.root);
     }
 
-    private void applyToNode(ASTNode node, AST ast) {
+    private void applyToNode(ASTNode node, AST ast, ASTNode parent) {
 
-//        if(!(node instanceof VariableAssignment)){
-//
-//            if(node instanceof Expression){
-//                System.out.println("tes");
-//            }
-//
-//            for (ASTNode x : node.getChildren()) {
-//                 this.applyToNode(x, ast);
-//            }
-//        } else {
-//            ast.root.removeChild(node);
-//        }
+
+        if (node instanceof Operation) {
+            Operation test = (Operation) node;
+            int total = getValue(test.lhs, ast) + getValue(test.rhs, ast);
+        }
+        // Post order traversal
+        node.getChildren().forEach(astNode -> this.applyToNode(astNode, ast, node));
+    }
+
+    private int getValue(ASTNode node, AST ast) {
+        if (node instanceof VariableReference) {
+            Literal literal = (Literal) ast.getVariable((VariableReference) node);
+            return literal.getValue();
+        } else {
+            return ((Literal) node).getValue();
+        }
     }
 }

@@ -18,6 +18,9 @@ public class SubtractOperation extends Operation {
 
     @Override
     public boolean check(AST ast) {
+        if(super.lhs.getClass().equals(super.rhs.getClass())){
+            this.setError("SubstractOperation: values are not equal type");
+        }
         return super.check(ast);
     }
 

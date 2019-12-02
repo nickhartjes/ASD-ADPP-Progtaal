@@ -45,4 +45,9 @@ public class BoolLiteral extends Literal {
     public String getCssString() {
         return String.valueOf(value);
     }
+
+    @Override
+    public int getValue() {
+        return value ? 1 : 0;
+    }
 }

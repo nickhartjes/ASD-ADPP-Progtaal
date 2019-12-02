@@ -102,7 +102,9 @@ public class ASTListener extends ICSSBaseListener {
 
     @Override
     public void enterVariableAssignment(ICSSParser.VariableAssignmentContext ctx) {
-        this.addToTree(new VariableAssignment());
+        VariableAssignment variableAssignment = new VariableAssignment();
+        this.addChildToParent(variableAssignment);
+        this.pushToContainer(variableAssignment);
     }
 
     @Override
@@ -142,16 +144,14 @@ public class ASTListener extends ICSSBaseListener {
     @Override
     public void enterIfClause(ICSSParser.IfClauseContext ctx) {
         ASTNode parent = this.currentContainer.peek();
-        if (parent instanceof Declaration) {
+        if (parent instanceof Declaration || parent instanceof VariableAssignment) {
             this.currentContainer.pop();
         }
+
         IfClause ifClause = new IfClause();
         this.addChildToParent(ifClause);
         this.pushToContainer(ifClause);
     }
-
-
-
 
     private void addToTree(ASTNode node) {
         this.pushToContainer(node);

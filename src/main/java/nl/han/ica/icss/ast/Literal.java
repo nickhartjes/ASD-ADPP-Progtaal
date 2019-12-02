@@ -6,4 +6,5 @@ public abstract class Literal extends Expression {
 
     public abstract ExpressionType getExpressionType();
 
+    public abstract int getValue();
 }
