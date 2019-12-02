@@ -24,7 +24,7 @@ public class Declaration extends ASTNode {
     }
 
     @Override
-    public boolean check(AST ast) {
+    public void check(AST ast) {
         String name = this.property.name;
 
         // Check if it is a variabeleReference, and replace the value;
@@ -37,7 +37,6 @@ public class Declaration extends ASTNode {
                 stringBuilder.append(variableReference.name);
                 stringBuilder.append(" is not declared");
                 this.setError(stringBuilder.toString());
-                return false;
             } else {
                 this.expression = expression;
             }
@@ -45,7 +44,6 @@ public class Declaration extends ASTNode {
 
         ExpressionType expressionType = this.expression.getExpressionType();
         this.typeCheck(name, expressionType);
-        return false;
     }
 
     private void typeCheck(String name, ExpressionType expressionType) {

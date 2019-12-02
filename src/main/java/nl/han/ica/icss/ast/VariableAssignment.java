@@ -57,7 +57,7 @@ public class VariableAssignment extends ASTNode {
     }
 
     @Override
-    public boolean check(AST ast) {
+    public void check(AST ast) {
 
         // Check if the expressions does not contain a variabelereference that does not excist.
         if (this.expression instanceof VariableReference) {
@@ -69,9 +69,7 @@ public class VariableAssignment extends ASTNode {
                 stringBuilder.append(variableReference.name);
                 stringBuilder.append(" is not declared");
                 this.setError(stringBuilder.toString());
-                return false;
             }
         }
-        return true;
     }
 }

@@ -89,12 +89,12 @@ public class ASTNode implements Checkable, CssGenerator {
     }
 
     @Override
-    public boolean check(AST ast) {
-        return true;
+    public String getCssString() {
+        return "";
     }
 
     @Override
-    public String getCssString() {
-        return "";
+    public void check(AST ast) {
+        // No check needed here
     }
 }

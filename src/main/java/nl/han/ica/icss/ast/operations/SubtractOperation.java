@@ -17,11 +17,11 @@ public class SubtractOperation extends Operation {
     }
 
     @Override
-    public boolean check(AST ast) {
-        if(super.lhs.getClass().equals(super.rhs.getClass())){
+    public void check(AST ast) {
+        super.check(ast);
+        if(!super.lhs.getClass().toString().equals(super.rhs.getClass().toString())){
             this.setError("SubstractOperation: values are not equal type");
         }
-        return super.check(ast);
     }
 
 }

@@ -77,8 +77,10 @@ class ParserInstructorTest {
     private Pipeline syntaxCheck(final Path path, final String astExpected, boolean isValid) throws IOException {
         // Get the pipeline
         final Pipeline pipeline = this.parseCheck(path, astExpected);
-        assertEquals(pipeline.check(), isValid);
-        assertEquals(pipeline.isChecked(), isValid);
+        boolean check = pipeline.check();
+        boolean isCheck = pipeline.isChecked();
+        assertEquals(check, isValid);
+        assertEquals(isCheck, isValid);
         for(String errors : pipeline.getErrors()) {
             System.out.println(errors);
         }
@@ -105,7 +107,6 @@ class ParserInstructorTest {
         syntaxCheck(path, astExpected, true);
     }
 
-    @Disabled
     @Test
     void testLevel1() throws IOException, URISyntaxException {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
@@ -125,7 +126,6 @@ class ParserInstructorTest {
         syntaxCheck(path, astExpected, true);
     }
 
-    @Disabled
     @Test
     void testLevel3() throws IOException, URISyntaxException {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
@@ -210,7 +210,6 @@ class ParserInstructorTest {
         parseCheck(path, astExpected);
     }
 
-    @Disabled
     @Test
     void testPA04T1() throws IOException, URISyntaxException {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
@@ -219,7 +218,6 @@ class ParserInstructorTest {
         parseCheck(path, astExpected);
     }
 
-    @Disabled
     @Test
     void testPA04T2() throws IOException, URISyntaxException {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
@@ -293,7 +291,6 @@ class ParserInstructorTest {
         syntaxCheck(path, astExpected, false);
     }
 
-    @Disabled
     @Test
     void testCH04T2() throws IOException, URISyntaxException {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
