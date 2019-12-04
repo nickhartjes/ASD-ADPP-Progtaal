@@ -68,14 +68,35 @@ boolLiteral         : TRUE | FALSE;
 variableAssignment  : variableReference ASSIGNMENT_OPERATOR expression SEMICOLON;
 variableReference   : CAPITAL_IDENT;
 
+//// Expressions
+//expression          : left=expression multiplyOperation right=expression
+//    | left=expression addOperation right=expression
+//    | left=expression substractOperation right=expression
+//    | ifClause
+//    | variableReference
+//    | literal;
+//
+//
+//// Operators
+////operation           : substractOperation | addOperation | multiplyOperation;
+//multiplyOperation   : MUL;
+//addOperation        : PLUS;
+//substractOperation  : MIN;
+
 // Expressions
-expression          : ifClause | variableReference | literal | operation;
+expression
+    : left=expression multiplyOperation right=expression
+    | left=expression addOperation right=expression
+    | left=expression substractOperation right=expression
+    | ifClause
+    | variableReference
+    | literal;
 
 // Operators
-operation           : multiplyOperation | substractOperation | addOperation;
-multiplyOperation   : literal MUL literal | literal MUL operation;
-addOperation        : literal PLUS literal | literal PLUS operation;
-substractOperation  : literal MIN literal | literal MIN operation;
+//operation           : substractOperation | addOperation | multiplyOperation;
+multiplyOperation   : MUL;
+addOperation        : PLUS;
+substractOperation  : MIN;
 
 // If
 ifClause            : IF BOX_BRACKET_OPEN expression BOX_BRACKET_CLOSE styleruleScope;

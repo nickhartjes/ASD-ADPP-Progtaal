@@ -12,10 +12,10 @@ public class EvalExpressions implements Transform {
     private void applyToNode(ASTNode node, AST ast, ASTNode parent) {
 
 
-        if (node instanceof Operation) {
-            Operation test = (Operation) node;
-            int total = getValue(test.lhs, ast) + getValue(test.rhs, ast);
-        }
+//        if (node instanceof Operation) {
+//            Operation test = (Operation) node;
+//            int total = getValue(test.lhs, ast) + getValue(test.rhs, ast);
+//        }
         // Post order traversal
         node.getChildren().forEach(astNode -> this.applyToNode(astNode, ast, node));
     }

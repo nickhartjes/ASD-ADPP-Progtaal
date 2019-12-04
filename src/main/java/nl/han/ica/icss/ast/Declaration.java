@@ -76,7 +76,6 @@ public class Declaration extends ASTNode {
 
     @Override
     public ArrayList<ASTNode> getChildren() {
-
         ArrayList<ASTNode> children = new ArrayList<>();
         if (property != null)
             children.add(property);
@@ -91,6 +90,16 @@ public class Declaration extends ASTNode {
             property = (PropertyName) child;
         } else if (child instanceof Expression) {
             expression = (Expression) child;
+        }
+        return this;
+    }
+
+    @Override
+    public ASTNode removeChild(ASTNode child) {
+        if (child instanceof PropertyName) {
+            property = null;
+        } else if (child instanceof Expression) {
+            expression = null;
         }
         return this;
     }

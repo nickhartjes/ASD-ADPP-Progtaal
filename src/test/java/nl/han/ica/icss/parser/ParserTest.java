@@ -1,5 +1,6 @@
 package nl.han.ica.icss.parser;
 
+import nl.han.ica.icss.Differ;
 import nl.han.ica.icss.ast.AST;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
@@ -62,6 +63,7 @@ class ParserTest {
 
         AST sut = parseTestFile("level0.icss");
         AST exp = Fixtures.uncheckedLevel0();
+        Differ.diffMatch(exp.toString(), sut.toString());
         assertEquals(exp, sut);
     }
 
@@ -70,6 +72,7 @@ class ParserTest {
 
         AST sut = parseTestFile("level1.icss");
         AST exp = Fixtures.uncheckedLevel1();
+        Differ.diffMatch(exp.toString(), sut.toString());
         assertEquals(exp, sut);
     }
 
@@ -78,6 +81,7 @@ class ParserTest {
 
         AST sut = parseTestFile("level2.icss");
         AST exp = Fixtures.uncheckedLevel2();
+        Differ.diffMatch(exp.toString(), sut.toString());
         assertEquals(exp, sut);
     }
 
@@ -86,6 +90,7 @@ class ParserTest {
 
         AST sut = parseTestFile("level3.icss");
         AST exp = Fixtures.uncheckedLevel3();
+        Differ.diffMatch(exp.toString(), sut.toString());
         assertEquals(exp, sut);
     }
 }
