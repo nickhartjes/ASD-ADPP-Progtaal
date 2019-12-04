@@ -60,12 +60,6 @@ public class ASTListener extends ICSSBaseListener {
 
     @Override
     public void enterDeclaration(ICSSParser.DeclarationContext ctx) {
-        // Check if the first in the stack is also a declaration, if so pop it.
-//        ASTNode parent = this.currentContainer.peek();
-//        if (parent instanceof Declaration) {
-//            this.currentContainer.pop();
-//        }
-
         while (!this.currentContainer.isEmpty()) {
             ASTNode node = this.currentContainer.peek();
             if (node instanceof Stylerule) {
@@ -85,7 +79,7 @@ public class ASTListener extends ICSSBaseListener {
 
     @Override
     public void enterPixelLiteral(ICSSParser.PixelLiteralContext ctx) {
-        if ( this.currentContainer.peek() instanceof VariableReference)
+        if (this.currentContainer.peek() instanceof VariableReference )
             this.currentContainer.pop();
         PixelLiteral pixelLiteral = new PixelLiteral(ctx.getText());
         this.addChildToParent(pixelLiteral);
@@ -94,7 +88,7 @@ public class ASTListener extends ICSSBaseListener {
 
     @Override
     public void enterPercentageLiteral(ICSSParser.PercentageLiteralContext ctx) {
-        if ( this.currentContainer.peek() instanceof VariableReference)
+        if (this.currentContainer.peek() instanceof VariableReference)
             this.currentContainer.pop();
         this.addChildToParent(new PercentageLiteral(ctx.getText()));
         PixelLiteral pixelLiteral = new PixelLiteral(ctx.getText());
@@ -104,7 +98,7 @@ public class ASTListener extends ICSSBaseListener {
 
     @Override
     public void enterColorLiteral(ICSSParser.ColorLiteralContext ctx) {
-        if ( this.currentContainer.peek() instanceof VariableReference)
+        if (this.currentContainer.peek() instanceof VariableReference)
             this.currentContainer.pop();
         ColorLiteral colorLiteral = new ColorLiteral(ctx.getText());
         this.addChildToParent(colorLiteral);
@@ -113,7 +107,7 @@ public class ASTListener extends ICSSBaseListener {
 
     @Override
     public void enterScalarLiteral(ICSSParser.ScalarLiteralContext ctx) {
-        if ( this.currentContainer.peek() instanceof VariableReference)
+        if (this.currentContainer.peek() instanceof VariableReference)
             this.currentContainer.pop();
         ScalarLiteral scalarLiteral = new ScalarLiteral(ctx.getText());
         this.addChildToParent(scalarLiteral);
@@ -122,7 +116,7 @@ public class ASTListener extends ICSSBaseListener {
 
     @Override
     public void enterBoolLiteral(ICSSParser.BoolLiteralContext ctx) {
-        if ( this.currentContainer.peek() instanceof VariableReference)
+        if (this.currentContainer.peek() instanceof VariableReference)
             this.currentContainer.pop();
         BoolLiteral boolLiteral = new BoolLiteral(ctx.getText());
         this.addChildToParent(boolLiteral);
@@ -131,10 +125,6 @@ public class ASTListener extends ICSSBaseListener {
 
     @Override
     public void enterVariableAssignment(ICSSParser.VariableAssignmentContext ctx) {
-//        ASTNode parent = this.currentContainer.peek();
-//        if (parent instanceof VariableAssignment) {
-//            this.currentContainer.pop();
-//        }
         while (!this.currentContainer.isEmpty()) {
             ASTNode node = this.currentContainer.peek();
             if (node instanceof Stylesheet || node instanceof Declaration) {
@@ -149,55 +139,26 @@ public class ASTListener extends ICSSBaseListener {
     }
 
     @Override
-    public void exitVariableAssignment(ICSSParser.VariableAssignmentContext ctx) {
-//        ASTNode node = this.currentContainer.peek();
-//        if (node instanceof VariableAssignment) {
-//            this.ast.addVariable(((VariableAssignment) node).name, ((VariableAssignment) node).expression);
-//        }
-    }
-
-    @Override
     public void enterVariableReference(ICSSParser.VariableReferenceContext ctx) {
-        ASTNode pa = this.currentContainer.peek();
         VariableReference variableReference = new VariableReference(ctx.getText());
-//        if (this.currentContainer.peek() instanceof VariableAssignment) {
-//            this.currentContainer.pop();
-//        }
         this.addChildToParent(variableReference);
-//        if (this.currentContainer.peek() instanceof VariableAssignment) {
-//                    this.pushToContainer(variableReference);
-//        }
         this.pushToContainer(variableReference);
     }
 
     @Override
     public void enterMultiplyOperation(ICSSParser.MultiplyOperationContext ctx) {
-//        this.addOperation(new MultiplyOperation());
-        ASTNode pop = this.currentContainer.pop();
-        MultiplyOperation variableAssignment = new MultiplyOperation();
-        variableAssignment.addChild(pop);
-        this.addChildToParent(variableAssignment);
-        this.pushToContainer(variableAssignment);
+        this.addOperation(new MultiplyOperation());
     }
-//
+
+    //
     @Override
     public void enterAddOperation(ICSSParser.AddOperationContext ctx) {
-//        this.addOperation(new AddOperation());
-        ASTNode pop = this.currentContainer.pop();
-        AddOperation variableAssignment = new AddOperation();
-        variableAssignment.addChild(pop);
-        this.addChildToParent(variableAssignment);
-        this.pushToContainer(variableAssignment);
+        this.addOperation(new AddOperation());
     }
 
     @Override
     public void enterSubstractOperation(ICSSParser.SubstractOperationContext ctx) {
-//        this.addOperation(new SubtractOperation());
-        ASTNode pop = this.currentContainer.pop();
-        SubtractOperation variableAssignment = new SubtractOperation();
-        variableAssignment.addChild(pop);
-        this.addChildToParent(variableAssignment);
-        this.pushToContainer(variableAssignment);
+        this.addOperation(new SubtractOperation());
     }
 
     @Override
@@ -225,17 +186,17 @@ public class ASTListener extends ICSSBaseListener {
         this.currentContainer.push(node);
     }
 
-    private void addOperation(Expression expression){
+    private void addOperation(Expression variableAssignment) {
         ASTNode pop = this.currentContainer.pop();
-        ASTNode peek = this.currentContainer.peek();
-        expression.addChild(pop);
-
-//        if(peek instanceof Operation){
-//            ((Operation) peek).lhs = expression;
-//        }
-            peek.removeChild(pop);
-            peek.addChild(expression);
-//        }
-        this.pushToContainer(expression);
+        variableAssignment.addChild(pop);
+        if (this.currentContainer.peek() instanceof AddOperation || this.currentContainer.peek() instanceof SubtractOperation ) {
+            Operation operation = (Operation) this.currentContainer.peek();
+//            operation.rhs = operation.lhs;
+//            operation.lhs = variableAssignment;
+            operation.rhs = variableAssignment;
+//            variableAssignment = operation;
+        }
+        this.addChildToParent(variableAssignment);
+        this.pushToContainer(variableAssignment);
     }
 }
