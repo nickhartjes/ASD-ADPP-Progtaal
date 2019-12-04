@@ -84,19 +84,61 @@ variableReference   : CAPITAL_IDENT;
 //substractOperation  : MIN;
 
 // Expressions
-expression
-    : left=expression multiplyOperation right=expression
-    | left=expression addOperation right=expression
-    | left=expression substractOperation right=expression
-    | ifClause
-    | variableReference
-    | literal;
+//expression
+//    : operation
+//    | ifClause
+//    | variableReference
+//    | literal;
+//
+//operation
+//    : multiplyOperation
+//    | addOperation
+//    | substractOperation;
 
 // Operators
 //operation           : substractOperation | addOperation | multiplyOperation;
 multiplyOperation   : MUL;
 addOperation        : PLUS;
 substractOperation  : MIN;
+
+expression
+    : left=expression multiplyOperation right=expression
+    | left=expression substractOperation right=expression
+    | left=expression addOperation right=expression
+    | ifClause
+    | variableReference
+    | literal;
+
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++
+//expression
+//  : literal
+//  | substractOperation
+//  | addOperation
+//  | multiplyOperation
+//      | ifClause
+//      | variableReference
+//  ;
+//
+//multiplyOperation
+//  : multiplyOperation MUL literal
+//  | literal MUL literal
+//  | literal (MUL multiplyOperation )*
+//  ;
+//
+//addOperation
+//  : literal PLUS literal
+//  | literal (PLUS addOperation)*
+//  ;
+//
+//substractOperation
+//  : literal MIN literal
+//  | literal (MIN substractOperation)?
+//  ;
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
 
 // If
 ifClause            : IF BOX_BRACKET_OPEN expression BOX_BRACKET_CLOSE styleruleScope;

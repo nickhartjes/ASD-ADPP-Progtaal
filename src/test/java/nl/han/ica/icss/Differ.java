@@ -11,12 +11,14 @@ public class Differ {
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_WHITE = "\u001B[37m";
 
-    static public void diffMatch(String expected, String generated) {
+    static public void diffMatch(String file, String expected, String generated) {
         DiffMatchPatch dmp = new DiffMatchPatch();
         StringBuilder stringBuilder = new StringBuilder();
         LinkedList<DiffMatchPatch.Diff> diff = dmp.diffMain(expected, generated);
         dmp.diffCleanupSemantic(diff);
 
+        stringBuilder.append("File: \n");
+        stringBuilder.append(file);
         stringBuilder.append("Expected: \n");
         stringBuilder.append(expected);
         stringBuilder.append("\n\n");

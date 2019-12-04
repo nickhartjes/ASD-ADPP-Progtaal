@@ -89,7 +89,7 @@ public class ASTListener extends ICSSBaseListener {
             this.currentContainer.pop();
         PixelLiteral pixelLiteral = new PixelLiteral(ctx.getText());
         this.addChildToParent(pixelLiteral);
-        this.pushToContainer(pixelLiteral);
+//        this.pushToContainer(pixelLiteral);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class ASTListener extends ICSSBaseListener {
         this.addChildToParent(new PercentageLiteral(ctx.getText()));
         PixelLiteral pixelLiteral = new PixelLiteral(ctx.getText());
         this.addChildToParent(pixelLiteral);
-        this.pushToContainer(pixelLiteral);
+//        this.pushToContainer(pixelLiteral);
     }
 
     @Override
@@ -108,7 +108,7 @@ public class ASTListener extends ICSSBaseListener {
             this.currentContainer.pop();
         ColorLiteral colorLiteral = new ColorLiteral(ctx.getText());
         this.addChildToParent(colorLiteral);
-        this.pushToContainer(colorLiteral);
+//        this.pushToContainer(colorLiteral);
     }
 
     @Override
@@ -117,7 +117,7 @@ public class ASTListener extends ICSSBaseListener {
             this.currentContainer.pop();
         ScalarLiteral scalarLiteral = new ScalarLiteral(ctx.getText());
         this.addChildToParent(scalarLiteral);
-        this.pushToContainer(scalarLiteral);
+//        this.pushToContainer(scalarLiteral);
     }
 
     @Override
@@ -126,7 +126,7 @@ public class ASTListener extends ICSSBaseListener {
             this.currentContainer.pop();
         BoolLiteral boolLiteral = new BoolLiteral(ctx.getText());
         this.addChildToParent(boolLiteral);
-        this.pushToContainer(boolLiteral);
+//        this.pushToContainer(boolLiteral);
     }
 
     @Override
@@ -173,16 +173,26 @@ public class ASTListener extends ICSSBaseListener {
     @Override
     public void enterMultiplyOperation(ICSSParser.MultiplyOperationContext ctx) {
         this.addOperation(new MultiplyOperation());
+//        MultiplyOperation variableAssignment = new MultiplyOperation();
+//        this.addChildToParent(variableAssignment);
+//        this.pushToContainer(variableAssignment);
     }
 //
     @Override
     public void enterAddOperation(ICSSParser.AddOperationContext ctx) {
         this.addOperation(new AddOperation());
+//        ASTNode pop = this.currentContainer.pop();
+//        AddOperation variableAssignment = new AddOperation();
+//        this.addChildToParent(variableAssignment);
+//        this.pushToContainer(variableAssignment);
     }
 
     @Override
     public void enterSubstractOperation(ICSSParser.SubstractOperationContext ctx) {
         this.addOperation(new SubtractOperation());
+//        SubtractOperation variableAssignment = new SubtractOperation();
+//        this.addChildToParent(variableAssignment);
+//        this.pushToContainer(variableAssignment);
     }
 
     @Override
@@ -194,14 +204,6 @@ public class ASTListener extends ICSSBaseListener {
         node.addChild(ifClause);
         this.pushToContainer(ifClause);
     }
-
-
-    @Override
-    public void exitIfClause(ICSSParser.IfClauseContext ctx) {
-        System.out.println("sdf");
-    }
-
-
 
     private void addToTree(ASTNode node) {
         this.pushToContainer(node);
@@ -222,11 +224,13 @@ public class ASTListener extends ICSSBaseListener {
         ASTNode pop = this.currentContainer.pop();
         ASTNode peek = this.currentContainer.peek();
         expression.addChild(pop);
-        if(peek instanceof Operation){
-            ((Operation) peek).rhs = expression;
-        } else{
+
+//        if(peek instanceof Operation){
+//            ((Operation) peek).lhs = expression;
+//        }
+            peek.removeChild(pop);
             peek.addChild(expression);
-        }
+//        }
         this.pushToContainer(expression);
     }
 }
