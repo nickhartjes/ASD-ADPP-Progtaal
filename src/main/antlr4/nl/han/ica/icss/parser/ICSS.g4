@@ -71,6 +71,7 @@ tagSelector
 // Declaration
 declaration
     : propertyName COLON expression SEMICOLON;
+
 propertyName
     : LOWER_IDENT;
 

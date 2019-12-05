@@ -40,11 +40,15 @@ public class AST {
     }
 
     private void collectErrors(ArrayList<SemanticError> errors, ASTNode node) {
-        if (node.hasError()) {
-            errors.add(node.getError());
-        }
-        for (ASTNode child : node.getChildren()) {
-            collectErrors(errors, child);
+        if(node != null) {
+            System.out.println();
+
+            if (node.hasError()) {
+                errors.add(node.getError());
+            }
+            for (ASTNode child : node.getChildren()) {
+                collectErrors(errors, child);
+            }
         }
     }
 
