@@ -16,13 +16,13 @@ public class RemoveIf implements Transform {
         // Post order traversal
         node.getChildren().forEach(astNode-> this.applyToNode(astNode, ast, node));
 
-        if (node instanceof IfClause) {
-            IfClause ifClause = (IfClause) node;
-            if (((BoolLiteral) ifClause.conditionalExpression).value) {
-                ifClause.body.forEach(parent::addChild);
-            }
-            parent.removeChild(ifClause);
-            parent.removeChild(node);
-        }
+//        if (node instanceof IfClause) {
+//            IfClause ifClause = (IfClause) node;
+//            if (((BoolLiteral) ifClause.conditionalExpression).value) {
+//                ifClause.body.forEach(parent::addChild);
+//            }
+//            parent.removeChild(ifClause);
+//            parent.removeChild(node);
+//        }
     }
 }

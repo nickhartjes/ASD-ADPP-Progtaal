@@ -90,35 +90,30 @@ public class ASTListener extends ICSSBaseListener {
     public void enterPixelLiteral(ICSSParser.PixelLiteralContext ctx) {
         PixelLiteral pixelLiteral = new PixelLiteral(ctx.getText());
         this.addChildToParent(pixelLiteral);
-//        this.pushToContainer(pixelLiteral);
     }
 
     @Override
     public void enterPercentageLiteral(ICSSParser.PercentageLiteralContext ctx) {
         PercentageLiteral pixelLiteral = new PercentageLiteral(ctx.getText());
         this.addChildToParent(pixelLiteral);
-//        this.pushToContainer(pixelLiteral);
     }
 
     @Override
     public void enterColorLiteral(ICSSParser.ColorLiteralContext ctx) {
         ColorLiteral colorLiteral = new ColorLiteral(ctx.getText());
         this.addChildToParent(colorLiteral);
-//        this.pushToContainer(colorLiteral);
     }
 
     @Override
     public void enterScalarLiteral(ICSSParser.ScalarLiteralContext ctx) {
         ScalarLiteral scalarLiteral = new ScalarLiteral(ctx.getText());
         this.addChildToParent(scalarLiteral);
-//        this.pushToContainer(scalarLiteral);
     }
 
     @Override
     public void enterBoolLiteral(ICSSParser.BoolLiteralContext ctx) {
         BoolLiteral boolLiteral = new BoolLiteral(ctx.getText());
         this.addChildToParent(boolLiteral);
-//        this.pushToContainer(boolLiteral);
     }
 
     @Override
@@ -136,7 +131,6 @@ public class ASTListener extends ICSSBaseListener {
     public void enterVariableReference(ICSSParser.VariableReferenceContext ctx) {
         VariableReference variableReference = new VariableReference(ctx.getText());
         this.addChildToParent(variableReference);
-//        this.pushToContainer(variableReference);
     }
 
     @Override
@@ -157,21 +151,19 @@ public class ASTListener extends ICSSBaseListener {
                 this.pushToContainer(multiplyOperation);
             }
         }
-//        super.enterExpression(ctx);
     }
 
     @Override
     public void enterIfClause(ICSSParser.IfClauseContext ctx) {
-        ASTNode parent = this.currentContainer.peek();
-        while (parent instanceof Declaration){
+        // Remove all parents till the parent is a stylerule or ifclause
+        while (true){
+            ASTNode parent = this.currentContainer.peek();
+            if(parent instanceof Stylerule || parent instanceof IfClause){
+                break;
+            }
             this.currentContainer.pop();
-            parent = this.currentContainer.peek();
         }
-
-//        this.currentContainer.pop();
-//        this.currentContainer.pop();
         IfClause ifClause = new IfClause();
-//        node.addChild(ifClause);
         this.addChildToParent(ifClause);
         this.pushToContainer(ifClause);
     }

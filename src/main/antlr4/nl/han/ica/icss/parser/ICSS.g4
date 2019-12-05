@@ -104,8 +104,8 @@ variableReference
 // Expressions
 expression
     : left=expression multiplyOperation right=expression
-    | left=expression substractOperation right=expression
     | left=expression addOperation right=expression
+    | left=expression substractOperation right=expression
     | ifClause
     | variableReference
     | literal
