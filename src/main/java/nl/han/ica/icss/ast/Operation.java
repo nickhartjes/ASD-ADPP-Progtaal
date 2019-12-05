@@ -40,8 +40,8 @@ public abstract class Operation extends Expression {
 //
 //        if(rhs instanceof VariableReference)
 //            rhs = ast.getVariable((VariableReference)rhs);
-
-        // Check for ColorLiteral
+//
+//        // Check for ColorLiteral
 //        if(lhs instanceof ColorLiteral || rhs instanceof  ColorLiteral){
 //            this.setError("Not possible to use a Colorliteral in a Operation");
 //        }

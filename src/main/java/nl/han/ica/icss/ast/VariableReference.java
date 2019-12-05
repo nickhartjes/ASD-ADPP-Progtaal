@@ -36,4 +36,17 @@ public class VariableReference extends Expression {
     public int hashCode() {
         return Objects.hash(name);
     }
+
+    @Override
+    public void check(AST ast) {
+
+        Expression expression = ast.getVariable(this);
+        if (expression == null) {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("The variabele reference with name: ");
+            stringBuilder.append(this.name);
+            stringBuilder.append(" is not declared");
+            this.setError(stringBuilder.toString());
+        }
+    }
 }

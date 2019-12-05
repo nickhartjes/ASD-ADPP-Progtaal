@@ -71,8 +71,8 @@ class ParserInstructorTest {
         Differ.diffMatch(inputTest, astExpected, pipeline.getAST().toString());
         assertEquals(astExpected, pipeline.getAST().toString());
         assertTrue(pipeline.isParsed());
-        assertEquals(check, isValid);
-        assertEquals(isChecked, isValid);
+        assertEquals(isValid, check);
+        assertEquals( isValid, isChecked);
         return pipeline;
     }
 
@@ -223,7 +223,6 @@ class ParserInstructorTest {
         parseCheck(path, astExpected, false);
     }
 
-    @Disabled("Zie teams")
     @Test
     void testCH01T2() throws IOException, URISyntaxException {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
