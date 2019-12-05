@@ -191,10 +191,7 @@ public class ASTListener extends ICSSBaseListener {
         variableAssignment.addChild(pop);
         if (this.currentContainer.peek() instanceof AddOperation || this.currentContainer.peek() instanceof SubtractOperation ) {
             Operation operation = (Operation) this.currentContainer.peek();
-//            operation.rhs = operation.lhs;
-//            operation.lhs = variableAssignment;
             operation.rhs = variableAssignment;
-//            variableAssignment = operation;
         }
         this.addChildToParent(variableAssignment);
         this.pushToContainer(variableAssignment);

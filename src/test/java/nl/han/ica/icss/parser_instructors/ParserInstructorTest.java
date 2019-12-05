@@ -64,18 +64,21 @@ class ParserInstructorTest {
     private Pipeline parseCheck(final Path path, final String astExpected, boolean isValid) throws IOException {
         final String inputTest = Files.readString(path);
         final Pipeline pipeline = new Pipeline();
-
         pipeline.parseString(inputTest);
+        boolean check = pipeline.check();
+        boolean isChecked = pipeline.isChecked();
+        Differ.printErrors(pipeline);
         Differ.diffMatch(inputTest, astExpected, pipeline.getAST().toString());
         assertEquals(astExpected, pipeline.getAST().toString());
         assertTrue(pipeline.isParsed());
-        assertEquals(pipeline.check(), isValid);
-        assertEquals(pipeline.isChecked(), isValid);
+        assertEquals(check, isValid);
+        assertEquals(isChecked, isValid);
         return pipeline;
     }
 
     private void parseCheckTransformGenerate(final Path path, final String astExpected, final String cssExpected) throws IOException {
         final Pipeline pipeline = parseCheck(path, astExpected, true);
+        Differ.printErrors(pipeline);
         pipeline.transform();
         assertTrue(pipeline.isTransformed());
         assertTrue(pipeline.getErrors().isEmpty());
@@ -220,6 +223,7 @@ class ParserInstructorTest {
         parseCheck(path, astExpected, false);
     }
 
+    @Disabled("Zie teams")
     @Test
     void testCH01T2() throws IOException, URISyntaxException {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()

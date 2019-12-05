@@ -1,5 +1,7 @@
 package nl.han.ica.icss;
 
+import nl.han.ica.icss.ast.AST;
+import nl.han.ica.icss.checker.SemanticError;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 
 import java.util.LinkedList;
@@ -43,5 +45,11 @@ public class Differ {
         stringBuilder.append(ANSI_RESET);
         stringBuilder.append("\n");
         System.out.println(stringBuilder.toString());
+    }
+
+    static public void printErrors(Pipeline pipeline){
+        for (String error : pipeline.getErrors()){
+            System.out.println(error);
+        }
     }
 }

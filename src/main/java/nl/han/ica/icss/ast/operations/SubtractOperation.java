@@ -2,6 +2,7 @@ package nl.han.ica.icss.ast.operations;
 
 import nl.han.ica.icss.ast.AST;
 import nl.han.ica.icss.ast.Operation;
+import nl.han.ica.icss.ast.literals.PercentageLiteral;
 import nl.han.ica.icss.ast.types.ExpressionType;
 
 public class SubtractOperation extends Operation {
@@ -19,7 +20,7 @@ public class SubtractOperation extends Operation {
     @Override
     public void check(AST ast) {
         super.check(ast);
-        if(!super.lhs.getClass().toString().equals(super.rhs.getClass().toString())){
+        if(super.lhs instanceof PercentageLiteral || super.rhs instanceof PercentageLiteral){
             this.setError("SubstractOperation: values are not equal type");
         }
     }

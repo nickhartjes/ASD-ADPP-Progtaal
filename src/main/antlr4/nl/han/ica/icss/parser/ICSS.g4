@@ -39,106 +39,85 @@ MUL: '*';
 ASSIGNMENT_OPERATOR: ':=';
 
 //--- PARSER: ---
-stylesheet          : variableAssignment* stylerule* EOF;
+stylesheet
+    : variableAssignment* stylerule* EOF;
 
-stylerule           : selector styleruleScope;
-styleruleBody       : styleruleStatement*;
-styleruleStatement  : variableAssignment | declaration | ifClause;
-styleruleScope      : OPEN_BRACE styleruleBody CLOSE_BRACE;
+stylerule
+    : selector styleruleScope;
+
+styleruleBody
+    : styleruleStatement*;
+
+styleruleStatement
+    : variableAssignment
+    | declaration
+    | ifClause;
+
+styleruleScope
+    : OPEN_BRACE styleruleBody CLOSE_BRACE;
 
 // Selectors
-selector            : classSelector | idSelector | tagSelector;
-classSelector       : CLASS_IDENT;
-idSelector          : ID_IDENT;
-tagSelector         : LOWER_IDENT;
+selector
+    : classSelector
+    | idSelector
+    | tagSelector;
+classSelector
+    : CLASS_IDENT;
+idSelector
+    : ID_IDENT;
+tagSelector
+    : LOWER_IDENT;
 
 // Declaration
-declaration         : propertyName COLON expression SEMICOLON;
-propertyName        : LOWER_IDENT;
+declaration
+    : propertyName COLON expression SEMICOLON;
+propertyName
+    : LOWER_IDENT;
 
 // Literals
-literal             : pixelLiteral | percentageLiteral | colorLiteral | scalarLiteral | boolLiteral | variableReference;
-pixelLiteral        : PIXELSIZE;
-percentageLiteral   : PERCENTAGE;
-colorLiteral        : COLOR;
-scalarLiteral       : SCALAR;
-boolLiteral         : TRUE | FALSE;
+literal
+    : pixelLiteral
+    | percentageLiteral
+    | colorLiteral
+    | scalarLiteral
+    | boolLiteral
+    | variableReference;
+
+pixelLiteral
+    : PIXELSIZE;
+percentageLiteral
+    : PERCENTAGE;
+colorLiteral
+    : COLOR;
+scalarLiteral
+    : SCALAR;
+boolLiteral
+    : TRUE | FALSE;
 
 // Variable
-variableAssignment  : variableReference ASSIGNMENT_OPERATOR expression SEMICOLON;
-variableReference   : CAPITAL_IDENT;
-
-//// Expressions
-//expression          : left=expression multiplyOperation right=expression
-//    | left=expression addOperation right=expression
-//    | left=expression substractOperation right=expression
-//    | ifClause
-//    | variableReference
-//    | literal;
-//
-//
-//// Operators
-////operation           : substractOperation | addOperation | multiplyOperation;
-//multiplyOperation   : MUL;
-//addOperation        : PLUS;
-//substractOperation  : MIN;
+variableAssignment
+    : variableReference ASSIGNMENT_OPERATOR expression SEMICOLON;
+variableReference
+    : CAPITAL_IDENT;
 
 // Expressions
-//expression
-//    : operation
-//    | ifClause
-//    | variableReference
-//    | literal;
-//
-//operation
-//    : multiplyOperation
-//    | addOperation
-//    | substractOperation;
-
-// Operators
-//operation           : substractOperation | addOperation | multiplyOperation;
-multiplyOperation   : MUL;
-addOperation        : PLUS;
-substractOperation  : MIN;
-
 expression
     : left=expression multiplyOperation right=expression
     | left=expression substractOperation right=expression
     | left=expression addOperation right=expression
     | ifClause
     | variableReference
-    | literal;
-
-
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++
-//expression
-//  : literal
-//  | substractOperation
-//  | addOperation
-//  | multiplyOperation
-//      | ifClause
-//      | variableReference
-//  ;
-//
-//multiplyOperation
-//  : multiplyOperation MUL literal
-//  | literal MUL literal
-//  | literal (MUL multiplyOperation )*
-//  ;
-//
-//addOperation
-//  : literal PLUS literal
-//  | literal (PLUS addOperation)*
-//  ;
-//
-//substractOperation
-//  : literal MIN literal
-//  | literal (MIN substractOperation)?
-//  ;
-
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
+    | literal
+    | variableAssignment;
 
 // If
-ifClause            : IF BOX_BRACKET_OPEN expression BOX_BRACKET_CLOSE styleruleScope;
+ifClause
+    : IF BOX_BRACKET_OPEN expression BOX_BRACKET_CLOSE styleruleScope;
+
+// Operators
+multiplyOperation
+    : MUL;
+addOperation
+    : PLUS;
+substractOperation
+    : MIN;
