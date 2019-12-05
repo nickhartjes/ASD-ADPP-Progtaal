@@ -128,6 +128,17 @@ public class ASTListener extends ICSSBaseListener {
     }
 
     @Override
+    public void exitVariableAssignment(ICSSParser.VariableAssignmentContext ctx) {
+        super.exitVariableAssignment(ctx);
+
+        // Add variabel to AST list
+        ASTNode node = this.currentContainer.peek();
+        if (node instanceof VariableAssignment) {
+            this.ast.addVariable(((VariableAssignment) node).name, ((VariableAssignment) node).expression );
+        }
+    }
+
+    @Override
     public void enterVariableReference(ICSSParser.VariableReferenceContext ctx) {
         VariableReference variableReference = new VariableReference(ctx.getText());
         this.addChildToParent(variableReference);

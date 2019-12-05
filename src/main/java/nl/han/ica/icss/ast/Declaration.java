@@ -1,6 +1,7 @@
 package nl.han.ica.icss.ast;
 
 import nl.han.ica.icss.ast.types.ExpressionType;
+import nl.han.ica.icss.checker.BooleanCheck;
 import nl.han.ica.icss.checker.ColorCheck;
 import nl.han.ica.icss.checker.PixelCheck;
 
@@ -25,25 +26,26 @@ public class Declaration extends ASTNode {
 
     @Override
     public void check(AST ast) {
-//        String name = this.property.name;
-//
-//        // Check if it is a variabeleReference, and replace the value;
-//        if (this.expression instanceof VariableReference) {
-//            VariableReference variableReference = (VariableReference) this.expression;
-//            Expression expression = ast.getVariable(variableReference);
-//            if (expression == null) {
-//                StringBuilder stringBuilder = new StringBuilder();
-//                stringBuilder.append("The variabele reference with name: ");
-//                stringBuilder.append(variableReference.name);
-//                stringBuilder.append(" is not declared");
-//                this.setError(stringBuilder.toString());
-//            } else {
-//                this.expression = expression;
-//            }
-//        }
-//
-//        ExpressionType expressionType = this.expression.getExpressionType();
-//        this.typeCheck(name, expressionType);
+        String name = this.property.name;
+
+        // Check if it is a variabeleReference, and replace the value;
+        if (this.expression instanceof VariableReference) {
+            VariableReference variableReference = (VariableReference) this.expression;
+            Expression expression = ast.getVariable(variableReference);
+
+            if (expression == null) {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append("The variabele reference with name: ");
+                stringBuilder.append(variableReference.name);
+                stringBuilder.append(" is not declared");
+                this.setError(stringBuilder.toString());
+            } else {
+                this.typeCheck(name, expression.getExpressionType());
+            }
+        }
+
+        ExpressionType expressionType = this.expression.getExpressionType();
+        this.typeCheck(name, expressionType);
     }
 
     private void typeCheck(String name, ExpressionType expressionType) {
@@ -54,6 +56,9 @@ public class Declaration extends ASTNode {
                 break;
             case PIXEL:
                 result = PixelCheck.valueOfLabel(name);
+                break;
+            case BOOL:
+                result = BooleanCheck.valueOfLabel(name);
                 break;
             case UNDEFINED:
                 result = true;

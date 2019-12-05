@@ -22,7 +22,11 @@ public class AST {
     }
 
     public Expression getVariable(VariableReference variableReference) {
-        return variables.get(variableReference);
+        Expression expression = variables.get(variableReference);
+        if(expression instanceof VariableReference){
+            return this.getVariable((VariableReference)expression);
+        }
+        return expression;
     }
 
     public Map<VariableReference, Expression> getVariables() {
@@ -41,8 +45,6 @@ public class AST {
 
     private void collectErrors(ArrayList<SemanticError> errors, ASTNode node) {
         if(node != null) {
-            System.out.println();
-
             if (node.hasError()) {
                 errors.add(node.getError());
             }
@@ -76,7 +78,7 @@ public class AST {
 
     private String cssBuilder() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("/* Generated from ICSS, do not edit */\n\n");
+//        stringBuilder.append("/* Generated from ICSS, do not edit */\n\n");
         for (ASTNode node : this.root.getChildren()) {
             stringBuilder.append(node.getCssString());
         }

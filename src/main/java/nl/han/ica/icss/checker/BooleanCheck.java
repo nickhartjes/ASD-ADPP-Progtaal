@@ -2,13 +2,13 @@ package nl.han.ica.icss.checker;
 
 import java.util.Arrays;
 
-public enum PixelCheck {
-    WIDTH("width"),
-    HEIGHT("height");
+public enum BooleanCheck {
+    TRUE("true"),
+    FALSE("false");
 
     public final String label;
 
-    private PixelCheck(String label) {
+    private BooleanCheck(String label) {
         this.label = label;
     }
 

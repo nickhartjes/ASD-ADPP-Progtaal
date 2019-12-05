@@ -4,6 +4,8 @@ import nl.han.ica.icss.ast.literals.ColorLiteral;
 
 import java.util.ArrayList;
 
+import static nl.han.ica.icss.ast.types.ExpressionType.SCALAR;
+
 public abstract class Operation extends Expression {
 
     public Expression lhs;
@@ -35,15 +37,50 @@ public abstract class Operation extends Expression {
         super.check(ast);
 
         // Get VariableReference
-//        if(lhs instanceof VariableReference)
-//            lhs = ast.getVariable((VariableReference)lhs);
-//
-//        if(rhs instanceof VariableReference)
-//            rhs = ast.getVariable((VariableReference)rhs);
-//
-//        // Check for ColorLiteral
-//        if(lhs instanceof ColorLiteral || rhs instanceof  ColorLiteral){
-//            this.setError("Not possible to use a Colorliteral in a Operation");
-//        }
+        if (lhs instanceof VariableReference) {
+            checkForColorLiteral(ast.getVariable((VariableReference) lhs));
+        }
+
+        if (rhs instanceof VariableReference) {
+            checkForColorLiteral(ast.getVariable((VariableReference) rhs));
+        }
+
+        // Check for ColorLiteral
+        checkForColorLiteral(lhs);
+        checkForColorLiteral(rhs);
+    }
+
+    public void checkForNotEqual(String operation, AST ast) {
+        Expression left = lhs;
+        Expression right = rhs;
+        if (left instanceof Operation || right instanceof Operation) {
+            return;
+        }
+
+        if (left instanceof VariableReference)
+            left = ast.getVariable((VariableReference) lhs);
+
+        if (right instanceof VariableReference)
+            right = ast.getVariable((VariableReference) rhs);
+
+        if (left.getExpressionType() != right.getExpressionType()) {
+
+            this.setError(operation + ": " + lhs.getExpressionType() + " and " + rhs.getExpressionType() + " are not equal type");
+
+        }
+    }
+
+    public void checkForMultiply(String operation) {
+        if (!lhs.getExpressionType().equals(SCALAR)) {
+            if (!rhs.getExpressionType().equals(SCALAR)) {
+                this.setError(operation + ": " + lhs.getExpressionType() + " or " + rhs.getExpressionType() + " needs te be Scalar");
+            }
+        }
+    }
+
+    private void checkForColorLiteral(Expression expression) {
+        if (expression instanceof ColorLiteral) {
+            this.setError("Not possible to use a Colorliteral in a Operation");
+        }
     }
 }

@@ -135,6 +135,7 @@ class ParserInstructorTest {
         parseCheck(path, astExpected, true);
     }
 
+    @Disabled("#ffeeee ")
     @Test
     void testPA01T3() throws IOException, URISyntaxException {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
@@ -236,7 +237,7 @@ class ParserInstructorTest {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
                 .getResource("CH02-T1.icss")).toURI());
         final String astExpected = "[Stylesheet|[Stylerule|[TagSelector a|][Declaration|[Property: (width)|][Add|[Add|[Pixel literal (20)|][Pixel literal (10)|]][Scalar literal (2)|]]]]]";
-        parseCheck(path, astExpected, false);
+        parseCheck(path, astExpected, true);
     }
 
     @Test
