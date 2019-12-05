@@ -20,9 +20,9 @@ public class SubtractOperation extends Operation {
     @Override
     public void check(AST ast) {
         super.check(ast);
-        if(super.lhs instanceof PercentageLiteral || super.rhs instanceof PercentageLiteral){
-            this.setError("SubstractOperation: values are not equal type");
-        }
+//        if(super.lhs instanceof PercentageLiteral || super.rhs instanceof PercentageLiteral){
+//            this.setError("SubstractOperation: values are not equal type");
+//        }
     }
 
 }

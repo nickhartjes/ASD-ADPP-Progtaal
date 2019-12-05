@@ -64,13 +64,13 @@ public class IfClause extends ASTNode {
 
     @Override
     public void check(AST ast) {
-        // Check if it's a variabele, if so get that value
-        if (this.conditionalExpression instanceof VariableReference) {
-            this.conditionalExpression = ast.getVariable((VariableReference) this.conditionalExpression);
-        }
-
-        if(!(this.conditionalExpression instanceof BoolLiteral)){
-            this.setError("If statement needs to be a BoolLiteral");
-        }
+//        // Check if it's a variabele, if so get that value
+//        if (this.conditionalExpression instanceof VariableReference) {
+//            this.conditionalExpression = ast.getVariable((VariableReference) this.conditionalExpression);
+//        }
+//
+//        if(!(this.conditionalExpression instanceof BoolLiteral)){
+//            this.setError("If statement needs to be a BoolLiteral");
+//        }
     }
 }

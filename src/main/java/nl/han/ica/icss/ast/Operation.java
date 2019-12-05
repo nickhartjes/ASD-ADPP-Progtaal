@@ -35,13 +35,13 @@ public abstract class Operation extends Expression {
         super.check(ast);
 
         // Get VariableReference
-        if(lhs instanceof VariableReference)
-            lhs = ast.getVariable((VariableReference)lhs);
+//        if(lhs instanceof VariableReference)
+//            lhs = ast.getVariable((VariableReference)lhs);
+//
+//        if(rhs instanceof VariableReference)
+//            rhs = ast.getVariable((VariableReference)rhs);
 
-        if(rhs instanceof VariableReference)
-            rhs = ast.getVariable((VariableReference)rhs);
-
-//        // Check for ColorLiteral
+        // Check for ColorLiteral
 //        if(lhs instanceof ColorLiteral || rhs instanceof  ColorLiteral){
 //            this.setError("Not possible to use a Colorliteral in a Operation");
 //        }

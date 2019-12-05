@@ -21,8 +21,8 @@ public class MultiplyOperation extends Operation {
     @Override
     public void check(AST ast) {
         super.check(ast);
-        if(super.lhs instanceof PercentageLiteral || super.rhs instanceof PercentageLiteral){
-            this.setError("Multiply only with Scalar Literals");
-        }
+//        if(super.lhs instanceof PercentageLiteral || super.rhs instanceof PercentageLiteral){
+//            this.setError("Multiply only with Scalar Literals");
+//        }
     }
 }
