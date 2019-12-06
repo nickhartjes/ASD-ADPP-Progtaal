@@ -8,7 +8,7 @@ public enum ColorCheck {
 
     public final String label;
 
-    private ColorCheck(String label) {
+    ColorCheck(String label) {
         this.label = label;
     }
 

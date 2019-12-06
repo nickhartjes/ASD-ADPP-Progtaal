@@ -8,7 +8,7 @@ public enum PixelCheck {
 
     public final String label;
 
-    private PixelCheck(String label) {
+    PixelCheck(String label) {
         this.label = label;
     }
 

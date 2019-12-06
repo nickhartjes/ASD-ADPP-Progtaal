@@ -70,7 +70,7 @@ public class BoolLiteral extends Literal {
         }
     }
 
-    public boolean getBoolValue(){
+    public boolean getBoolValue() {
         if (this.not) {
             return !value;
         } else {

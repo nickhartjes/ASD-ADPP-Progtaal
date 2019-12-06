@@ -8,7 +8,7 @@ public enum BooleanCheck {
 
     public final String label;
 
-    private BooleanCheck(String label) {
+    BooleanCheck(String label) {
         this.label = label;
     }
 

@@ -80,7 +80,7 @@ public abstract class Operation extends Expression {
         }
 
 //
-        if (right instanceof Operation){
+        if (right instanceof Operation) {
             Operation node1 = (Operation) right;
             right = checkForNotEqual(node1.getNodeLabel(), ast, node1.lhs, node1.rhs);
         }

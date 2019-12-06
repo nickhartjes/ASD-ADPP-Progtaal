@@ -23,8 +23,8 @@ public class AST {
 
     public ASTNode getVariable(VariableReference variableReference) {
         ASTNode expression = variables.get(variableReference);
-        if(expression instanceof VariableReference){
-            return this.getVariable((VariableReference)expression);
+        if (expression instanceof VariableReference) {
+            return this.getVariable((VariableReference) expression);
         }
         return expression;
     }
@@ -44,7 +44,7 @@ public class AST {
     }
 
     private void collectErrors(ArrayList<SemanticError> errors, ASTNode node) {
-        if(node != null) {
+        if (node != null) {
             if (node.hasError()) {
                 errors.add(node.getError());
             }

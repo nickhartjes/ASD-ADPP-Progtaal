@@ -8,12 +8,12 @@ import java.util.Deque;
 
 public class RemoveIf implements Transform {
 
+    private Deque<ASTNode> stack = new ArrayDeque<>();
+
     @Override
     public void apply(AST ast) {
         this.applyToNode(ast.root, ast, ast.root);
     }
-
-    private Deque<ASTNode> stack = new ArrayDeque<>();
 
     private void applyToNode(ASTNode node, AST ast, ASTNode parent) {
 

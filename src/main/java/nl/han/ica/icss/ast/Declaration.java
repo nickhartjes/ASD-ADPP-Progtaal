@@ -39,8 +39,8 @@ public class Declaration extends ASTNode {
                 stringBuilder.append(variableReference.name);
                 stringBuilder.append(" is not declared");
                 this.setError(stringBuilder.toString());
-            } else if (expression instanceof  Expression) {
-                Expression node = (Expression)expression;
+            } else if (expression instanceof Expression) {
+                Expression node = (Expression) expression;
                 this.typeCheck(name, node.getExpressionType());
             }
         }

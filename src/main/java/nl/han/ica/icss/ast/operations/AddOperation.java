@@ -1,7 +1,6 @@
 package nl.han.ica.icss.ast.operations;
 
 import nl.han.ica.icss.ast.AST;
-import nl.han.ica.icss.ast.ASTNode;
 import nl.han.ica.icss.ast.Literal;
 import nl.han.ica.icss.ast.Operation;
 import nl.han.ica.icss.ast.literals.PixelLiteral;

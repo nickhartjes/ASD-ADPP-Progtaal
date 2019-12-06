@@ -63,7 +63,7 @@ public class ASTListener extends ICSSBaseListener {
     @Override
     public void enterDeclaration(ICSSParser.DeclarationContext ctx) {
         ASTNode parent = this.currentContainer.peek();
-        while (parent instanceof Declaration || parent instanceof  VariableAssignment) {
+        while (parent instanceof Declaration || parent instanceof VariableAssignment) {
             this.currentContainer.pop();
             parent = this.currentContainer.peek();
         }
@@ -115,7 +115,7 @@ public class ASTListener extends ICSSBaseListener {
         boolean value = ctx.children.stream().anyMatch(x -> x.getText().equals("TRUE"));
 
         BoolLiteral boolLiteral = new BoolLiteral(value);
-        if(ctx.children.stream().anyMatch(x -> x instanceof ICSSParser.NotContext)){
+        if (ctx.children.stream().anyMatch(x -> x instanceof ICSSParser.NotContext)) {
             boolLiteral = new BoolLiteral(value, true);
         }
         this.addChildToParent(boolLiteral);
@@ -139,7 +139,7 @@ public class ASTListener extends ICSSBaseListener {
         // Add variabel to AST list
         ASTNode node = this.currentContainer.peek();
         if (node instanceof VariableAssignment) {
-            this.ast.addVariable(((VariableAssignment) node).name, ((VariableAssignment) node).expression );
+            this.ast.addVariable(((VariableAssignment) node).name, ((VariableAssignment) node).expression);
         } else if (node instanceof Operation) {
             this.currentContainer.pop();
             this.exitVariableAssignment(ctx);
@@ -155,16 +155,16 @@ public class ASTListener extends ICSSBaseListener {
     @Override
     public void enterExpression(ICSSParser.ExpressionContext ctx) {
         List children = ctx.children;
-        if(children.size() > 1){
-            if(children.get(1) instanceof ICSSParser.AddOperationContext){
+        if (children.size() > 1) {
+            if (children.get(1) instanceof ICSSParser.AddOperationContext) {
                 AddOperation multiplyOperation = new AddOperation();
                 this.addChildToParent(multiplyOperation);
                 this.pushToContainer(multiplyOperation);
-            } else if (children.get(1) instanceof ICSSParser.MultiplyOperationContext){
+            } else if (children.get(1) instanceof ICSSParser.MultiplyOperationContext) {
                 MultiplyOperation multiplyOperation = new MultiplyOperation();
                 this.addChildToParent(multiplyOperation);
                 this.pushToContainer(multiplyOperation);
-            }else if (children.get(1) instanceof ICSSParser.SubstractOperationContext){
+            } else if (children.get(1) instanceof ICSSParser.SubstractOperationContext) {
                 SubtractOperation multiplyOperation = new SubtractOperation();
                 this.addChildToParent(multiplyOperation);
                 this.pushToContainer(multiplyOperation);
@@ -181,9 +181,9 @@ public class ASTListener extends ICSSBaseListener {
     @Override
     public void enterIfClause(ICSSParser.IfClauseContext ctx) {
         // Remove all parents till the parent is a stylerule or ifclause
-        while (true){
+        while (true) {
             ASTNode parent = this.currentContainer.peek();
-            if(parent instanceof Stylerule || parent instanceof IfClause){
+            if (parent instanceof Stylerule || parent instanceof IfClause) {
                 break;
             }
             this.currentContainer.pop();
@@ -195,9 +195,9 @@ public class ASTListener extends ICSSBaseListener {
 
     @Override
     public void enterElseClause(ICSSParser.ElseClauseContext ctx) {
-        while (true){
+        while (true) {
             ASTNode parent = this.currentContainer.peek();
-            if(parent instanceof IfClause){
+            if (parent instanceof IfClause) {
                 break;
             }
             this.currentContainer.pop();
