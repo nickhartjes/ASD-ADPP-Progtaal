@@ -112,7 +112,12 @@ public class ASTListener extends ICSSBaseListener {
 
     @Override
     public void enterBoolLiteral(ICSSParser.BoolLiteralContext ctx) {
-        BoolLiteral boolLiteral = new BoolLiteral(ctx.getText());
+        boolean value = ctx.children.stream().anyMatch(x -> x.getText().equals("TRUE"));
+
+        BoolLiteral boolLiteral = new BoolLiteral(value);
+        if(ctx.children.stream().anyMatch(x -> x instanceof ICSSParser.NotContext)){
+            boolLiteral = new BoolLiteral(value, true);
+        }
         this.addChildToParent(boolLiteral);
     }
 

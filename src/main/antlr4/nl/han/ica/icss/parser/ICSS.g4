@@ -39,6 +39,7 @@ MIN: '-';
 MUL: '*';
 ASSIGNMENT_OPERATOR: ':=';
 COMMA: ',';
+EXCLAMATION_MARK: '!';
 
 //--- PARSER: ---
 stylesheet
@@ -106,7 +107,13 @@ colorLiteral
 scalarLiteral
     : SCALAR;
 boolLiteral
-    : TRUE | FALSE;
+    : TRUE
+    | FALSE
+    | not TRUE
+    | not FALSE;
+
+not
+    : EXCLAMATION_MARK;
 
 // Variable
 variableAssignment

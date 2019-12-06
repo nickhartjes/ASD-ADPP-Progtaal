@@ -18,21 +18,13 @@ public class RemoveIf implements Transform {
     private void applyToNode(ASTNode node, AST ast, ASTNode parent) {
 
 
-        for(ASTNode x: node.getChildren()){
+        for (ASTNode x : node.getChildren()) {
             this.applyToNode(x, ast, node);
         }
 
         if (node instanceof IfClause) {
-
             IfClause ifClause = (IfClause) node;
-            if(ifClause.conditionalExpression instanceof VariableReference){
-                ASTNode expression = ast.getVariable((VariableReference) ifClause.conditionalExpression);
-                if(expression instanceof BoolLiteral  ){
-                    ifClause.conditionalExpression = (BoolLiteral)expression;
-                }
-            }
-
-            if (((BoolLiteral) ifClause.conditionalExpression).value) {
+            if (getBoolExpression(ifClause.conditionalExpression, ast)) {
                 ifClause.body.forEach(parent::addChild);
             }
             parent.removeChild(ifClause);
@@ -40,25 +32,24 @@ public class RemoveIf implements Transform {
             this.stack.add(ifClause);
         }
 //
-        if(node instanceof ElseClause){
-            this.stack.add(node);
+        if (node instanceof ElseClause) {
             IfClause ifClause = (IfClause) this.stack.pop();
             ElseClause elseClause = (ElseClause) node;
 
-            if(ifClause.conditionalExpression instanceof VariableReference){
-                ASTNode expression = ast.getVariable((VariableReference) ifClause.conditionalExpression);
-                if(expression instanceof BoolLiteral  ){
-                    ifClause.conditionalExpression = (BoolLiteral)expression;
-                }
-            }
-
-            if (!((BoolLiteral) ifClause.conditionalExpression).value) {
+            if (!getBoolExpression(ifClause.conditionalExpression, ast)) {
                 elseClause.body.forEach(parent::addChild);
             }
             parent.removeChild(elseClause);
             parent.removeChild(node);
         }
+    }
 
-
+    private boolean getBoolExpression(Expression expression, AST ast) {
+        if (expression instanceof VariableReference) {
+            ASTNode variable = ast.getVariable((VariableReference) expression);
+            return ((BoolLiteral) variable).getBoolValue();
+        } else {
+            return ((BoolLiteral) expression).getBoolValue();
+        }
     }
 }

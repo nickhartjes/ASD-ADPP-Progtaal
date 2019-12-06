@@ -1,0 +1,8 @@
+UseLinkColor := !TRUE;
+a {
+    if[UseLinkColor]{
+        color: #000000;
+    } else {
+        color: #111111;
+    }
+}

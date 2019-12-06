@@ -8,8 +8,16 @@ import java.util.Objects;
 public class BoolLiteral extends Literal {
     public boolean value;
 
+    public boolean not;
+
     public BoolLiteral(boolean value) {
         this.value = value;
+        this.not = false;
+    }
+
+    public BoolLiteral(boolean value, boolean not) {
+        this.value = value;
+        this.not = not;
     }
 
     public BoolLiteral(String text) {
@@ -23,8 +31,15 @@ public class BoolLiteral extends Literal {
 
     @Override
     public String getNodeLabel() {
+        StringBuilder stringBuilder = new StringBuilder();
         String textValue = value ? "TRUE" : "FALSE";
-        return "Bool Literal (" + textValue + ")";
+        stringBuilder.append("Bool Literal (");
+        if (not) {
+            stringBuilder.append("!");
+        }
+        stringBuilder.append(textValue);
+        stringBuilder.append(")");
+        return stringBuilder.toString();
     }
 
     @Override
@@ -48,6 +63,18 @@ public class BoolLiteral extends Literal {
 
     @Override
     public int getValue() {
-        return value ? 1 : 0;
+        if (this.not) {
+            return !value ? 1 : 0;
+        } else {
+            return value ? 1 : 0;
+        }
+    }
+
+    public boolean getBoolValue(){
+        if (this.not) {
+            return !value;
+        } else {
+            return value;
+        }
     }
 }
