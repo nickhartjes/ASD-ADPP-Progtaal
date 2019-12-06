@@ -83,4 +83,6 @@ public abstract class Operation extends Expression {
             this.setError("Not possible to use a Colorliteral in a Operation");
         }
     }
+
+    public abstract Literal calculate(int left, int right);
 }

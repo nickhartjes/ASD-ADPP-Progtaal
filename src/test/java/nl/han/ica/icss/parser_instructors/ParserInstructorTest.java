@@ -80,6 +80,7 @@ class ParserInstructorTest {
         final Pipeline pipeline = parseCheck(path, astExpected, true);
         Differ.printErrors(pipeline);
         pipeline.transform();
+        System.out.println(pipeline.generate());
         assertTrue(pipeline.isTransformed());
         assertTrue(pipeline.getErrors().isEmpty());
         assertEquals(cssExpected, pipeline.generate());
