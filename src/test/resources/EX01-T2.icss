@@ -1,0 +1,3 @@
+a, p, #class, .perfect {
+  width: 10px;
+}

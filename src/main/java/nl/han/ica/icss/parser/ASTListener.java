@@ -7,6 +7,7 @@ import nl.han.ica.icss.ast.operations.MultiplyOperation;
 import nl.han.ica.icss.ast.operations.SubtractOperation;
 import nl.han.ica.icss.ast.selectors.ClassSelector;
 import nl.han.ica.icss.ast.selectors.IdSelector;
+import nl.han.ica.icss.ast.selectors.SelectorSeperator;
 import nl.han.ica.icss.ast.selectors.TagSelector;
 
 import java.util.ArrayDeque;
@@ -164,6 +165,12 @@ public class ASTListener extends ICSSBaseListener {
                 this.pushToContainer(multiplyOperation);
             }
         }
+    }
+
+    @Override
+    public void enterSelectorSeperator(ICSSParser.SelectorSeperatorContext ctx) {
+        super.enterSelectorSeperator(ctx);
+        this.addChildToParent(new SelectorSeperator());
     }
 
     @Override

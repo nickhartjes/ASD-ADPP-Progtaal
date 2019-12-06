@@ -37,13 +37,14 @@ PLUS: '+';
 MIN: '-';
 MUL: '*';
 ASSIGNMENT_OPERATOR: ':=';
+COMMA: ',';
 
 //--- PARSER: ---
 stylesheet
     : variableAssignment* stylerule* EOF;
 
 stylerule
-    : selector styleruleScope;
+    : selectors styleruleScope;
 
 styleruleBody
     : styleruleStatement*;
@@ -57,6 +58,16 @@ styleruleScope
     : OPEN_BRACE styleruleBody CLOSE_BRACE;
 
 // Selectors
+selectors
+    : selector
+    | multiSelectors* selector;
+
+multiSelectors
+    : selector selectorSeperator;
+
+selectorSeperator
+    : COMMA;
+
 selector
     : classSelector
     | idSelector
