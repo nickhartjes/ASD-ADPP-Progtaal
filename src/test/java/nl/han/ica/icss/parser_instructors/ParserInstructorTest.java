@@ -1,6 +1,5 @@
 package nl.han.ica.icss.parser_instructors;
 
-import nl.han.ica.icss.Differ;
 import nl.han.ica.icss.Pipeline;
 import org.junit.jupiter.api.Test;
 
@@ -20,22 +19,16 @@ class ParserInstructorTest {
         final String inputTest = Files.readString(path);
         final Pipeline pipeline = new Pipeline();
         pipeline.parseString(inputTest);
-        boolean check = pipeline.check();
-        boolean isChecked = pipeline.isChecked();
-        Differ.printErrors(pipeline);
-        Differ.diffMatch(inputTest, astExpected, pipeline.getAST().toString());
         assertEquals(astExpected, pipeline.getAST().toString());
         assertTrue(pipeline.isParsed());
-        assertEquals(isValid, check);
-        assertEquals( isValid, isChecked);
+        assertEquals(pipeline.check(), isValid);
+        assertEquals(pipeline.isChecked(), isValid);
         return pipeline;
     }
 
     private void parseCheckTransformGenerate(final Path path, final String astExpected, final String cssExpected) throws IOException {
         final Pipeline pipeline = parseCheck(path, astExpected, true);
-        Differ.printErrors(pipeline);
         pipeline.transform();
-        System.out.println(pipeline.generate());
         assertTrue(pipeline.isTransformed());
         assertTrue(pipeline.getErrors().isEmpty());
         assertEquals(cssExpected, pipeline.generate());
