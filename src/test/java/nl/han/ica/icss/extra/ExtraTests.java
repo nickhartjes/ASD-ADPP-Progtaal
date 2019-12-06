@@ -64,4 +64,29 @@ class ExtraTests {
                 "}\n";
         parseCheckTransformGenerate(path, astExpected, cssExpected);
     }
+
+    @Test
+    void testEX02T1() throws IOException, URISyntaxException {
+        final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
+                .getResource("EX02-T1.icss")).toURI());
+        final String astExpected = "[Stylesheet|[VariableAssignment (UseLinkColor)|[VariableReference (UseLinkColor)|][Bool Literal (FALSE)|]][Stylerule|[TagSelector a|][If_Clause|[VariableReference (UseLinkColor)|][Declaration|[Property: (color)|][Color literal (#000000)|]]][Else_Clause|[Declaration|[Property: (color)|][Color literal (#111111)|]]]]]";
+        final String cssExpected = "a {\n" +
+                "  color: #111111;\n" +
+                "}\n";
+        parseCheckTransformGenerate(path, astExpected, cssExpected);
+    }
+
+    @Test
+    void testEX02T2() throws IOException, URISyntaxException {
+        final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
+                .getResource("EX02-T2.icss")).toURI());
+        final String astExpected = "[Stylesheet|[VariableAssignment (UseLinkColor)|[VariableReference (UseLinkColor)|][Bool Literal (TRUE)|]][Stylerule|[TagSelector a|][If_Clause|[VariableReference (UseLinkColor)|][Declaration|[Property: (color)|][Color literal (#000000)|]]][Else_Clause|[Declaration|[Property: (color)|][Color literal (#111111)|]]]]]";
+        final String cssExpected = "a {\n" +
+                "  color: #000000;\n" +
+                "}\n";
+        parseCheckTransformGenerate(path, astExpected, cssExpected);
+    }
+
+
+
 }

@@ -5,6 +5,7 @@ grammar ICSS;
 IF: 'if';
 BOX_BRACKET_OPEN: '[';
 BOX_BRACKET_CLOSE: ']';
+ELSE: 'else';
 
 
 //Literals
@@ -52,7 +53,8 @@ styleruleBody
 styleruleStatement
     : variableAssignment
     | declaration
-    | ifClause;
+    | ifClause
+    | elseClause;
 
 styleruleScope
     : OPEN_BRACE styleruleBody CLOSE_BRACE;
@@ -118,6 +120,7 @@ expression
     | left=expression addOperation right=expression
     | left=expression substractOperation right=expression
     | ifClause
+    | elseClause
     | variableReference
     | literal
     | variableAssignment;
@@ -125,6 +128,9 @@ expression
 // If
 ifClause
     : IF BOX_BRACKET_OPEN expression BOX_BRACKET_CLOSE styleruleScope;
+
+elseClause
+    : ELSE styleruleScope;
 
 // Operators
 multiplyOperation

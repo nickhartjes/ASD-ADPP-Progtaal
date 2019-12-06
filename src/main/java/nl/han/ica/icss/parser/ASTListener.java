@@ -188,6 +188,22 @@ public class ASTListener extends ICSSBaseListener {
         this.pushToContainer(ifClause);
     }
 
+    @Override
+    public void enterElseClause(ICSSParser.ElseClauseContext ctx) {
+        while (true){
+            ASTNode parent = this.currentContainer.peek();
+            if(parent instanceof IfClause){
+                break;
+            }
+            this.currentContainer.pop();
+        }
+
+        ElseClause elseClause = new ElseClause();
+        this.currentContainer.pop();
+        this.addChildToParent(elseClause);
+        this.pushToContainer(elseClause);
+    }
+
     private void addToTree(ASTNode node) {
         this.pushToContainer(node);
         this.ast.root.addChild(node);
