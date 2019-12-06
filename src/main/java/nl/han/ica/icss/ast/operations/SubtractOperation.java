@@ -23,7 +23,7 @@ public class SubtractOperation extends Operation {
     @Override
     public void check(AST ast) {
         super.check(ast);
-        super.checkForNotEqual("SubstractOperation", ast);
+        super.checkForNotEqual(getNodeLabel(), ast, super.lhs, super.rhs);
     }
 
     @Override

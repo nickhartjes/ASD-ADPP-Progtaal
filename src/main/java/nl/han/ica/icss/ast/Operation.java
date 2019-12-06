@@ -50,23 +50,51 @@ public abstract class Operation extends Expression {
         checkForColorLiteral(rhs);
     }
 
-    public void checkForNotEqual(String operation, AST ast) {
-        Expression left = lhs;
-        Expression right = rhs;
-        if (left instanceof Operation || right instanceof Operation) {
-            return;
+    public Expression checkForNotEqual(String operation, AST ast, Expression leftExpression, Expression rightExpression) {
+        Expression left = leftExpression;
+        Expression right = rightExpression;
+
+        if (left instanceof VariableReference) {
+            ASTNode node = ast.getVariable((VariableReference) leftExpression);
+            if (node instanceof Operation) {
+                Operation node1 = (Operation) node;
+                left = checkForNotEqual(node1.getNodeLabel(), ast, node1.lhs, node1.rhs);
+            } else {
+                left = (Expression) node;
+            }
         }
 
-        if (left instanceof VariableReference)
-            left = (Expression) ast.getVariable((VariableReference) lhs);
+        if (right instanceof VariableReference) {
+            ASTNode node = ast.getVariable((VariableReference) rightExpression);
+            if (node instanceof Operation) {
+                Operation node1 = (Operation) node;
+                right = checkForNotEqual(node1.getNodeLabel(), ast, node1.lhs, node1.rhs);
+            } else {
+                right = (Expression) node;
+            }
+        }
+//
+        if (left instanceof Operation) {
+            Operation node1 = (Operation) left;
+            left = checkForNotEqual(node1.getNodeLabel(), ast, node1.lhs, node1.rhs);
+        }
 
-        if (right instanceof VariableReference)
-            right = (Expression) ast.getVariable((VariableReference) rhs);
+//
+        if (right instanceof Operation){
+            Operation node1 = (Operation) right;
+            right = checkForNotEqual(node1.getNodeLabel(), ast, node1.lhs, node1.rhs);
+        }
 
         if (left.getExpressionType() != right.getExpressionType()) {
+            if (!operation.equals("Multiply")) {
+                this.setError(operation + ": " + left.getExpressionType() + " and " + right.getExpressionType() + " are not equal type");
+            }
+        }
 
-            this.setError(operation + ": " + lhs.getExpressionType() + " and " + rhs.getExpressionType() + " are not equal type");
-
+        if (left.getExpressionType() == SCALAR) {
+            return right;
+        } else {
+            return left;
         }
     }
 

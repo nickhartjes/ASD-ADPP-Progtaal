@@ -2,7 +2,6 @@ package nl.han.ica.icss.parser_instructors;
 
 import nl.han.ica.icss.Differ;
 import nl.han.ica.icss.Pipeline;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -16,50 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ParserInstructorTest {
-
-
-//    private Pipeline readPipeline(final Path path) throws IOException {
-//        final String inputTest = Files.readString(path);
-//        System.out.println(inputTest);
-//        final Pipeline pipeline = new Pipeline();
-//        pipeline.parseString(inputTest);
-//        return pipeline;
-//    }
-
-//    private Pipeline parseCheck(final Path path, final String astExpected) throws IOException {
-//        // Get the pipeline
-//        final Pipeline pipeline = this.readPipeline(path);
-//
-//        // Get a visual representation of the Strings and diffs
-//        Differ.diffMatch(astExpected, pipeline.getAST().toString());
-//        assertEquals(astExpected, pipeline.getAST().toString());
-//        assertTrue(pipeline.isParsed());
-//        return pipeline;
-//    }
-//
-//    private Pipeline syntaxCheck(final Path path, final String astExpected, boolean isValid) throws IOException {
-//        // Get the pipeline
-//        final Pipeline pipeline = this.parseCheck(path, astExpected);
-//        boolean check = pipeline.check();
-//        boolean isCheck = pipeline.isChecked();
-//        assertEquals(check, isValid);
-//        assertEquals(isCheck, isValid);
-//        for (String errors : pipeline.getErrors()) {
-//            System.out.println(errors);
-//        }
-//        return pipeline;
-//    }
-//
-//
-//    private void parseCheckTransformGenerate(final Path path, final String astExpected, final String cssExpected) throws IOException {
-//        final Pipeline pipeline = parseCheck(path, astExpected);
-//        pipeline.transform();
-//        assertTrue(pipeline.isTransformed());
-//        assertTrue(pipeline.getErrors().isEmpty());
-//        assertEquals(cssExpected, pipeline.generate());
-//
-//        assertTrue(pipeline.getErrors().isEmpty());
-//    }
 
     private Pipeline parseCheck(final Path path, final String astExpected, boolean isValid) throws IOException {
         final String inputTest = Files.readString(path);
@@ -86,7 +41,6 @@ class ParserInstructorTest {
         assertEquals(cssExpected, pipeline.generate());
         assertTrue(pipeline.getErrors().isEmpty());
     }
-
 
     @Test
     void testLevel0() throws IOException, URISyntaxException {
@@ -136,7 +90,6 @@ class ParserInstructorTest {
         parseCheck(path, astExpected, true);
     }
 
-    @Disabled("#ffeeee ")
     @Test
     void testPA01T3() throws IOException, URISyntaxException {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
@@ -238,7 +191,7 @@ class ParserInstructorTest {
         final Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
                 .getResource("CH02-T1.icss")).toURI());
         final String astExpected = "[Stylesheet|[Stylerule|[TagSelector a|][Declaration|[Property: (width)|][Add|[Add|[Pixel literal (20)|][Pixel literal (10)|]][Scalar literal (2)|]]]]]";
-        parseCheck(path, astExpected, true);
+        parseCheck(path, astExpected, false);
     }
 
     @Test

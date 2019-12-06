@@ -22,7 +22,7 @@ public class AddOperation extends Operation {
     @Override
     public void check(AST ast) {
         super.check(ast);
-        super.checkForNotEqual("AddOperation", ast);
+        super.checkForNotEqual(getNodeLabel(), ast, super.lhs, super.rhs);
     }
 
     @Override

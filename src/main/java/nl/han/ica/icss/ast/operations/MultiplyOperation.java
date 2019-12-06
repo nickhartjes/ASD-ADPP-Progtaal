@@ -24,7 +24,7 @@ public class MultiplyOperation extends Operation {
     @Override
     public void check(AST ast) {
         super.check(ast);
-        super.checkForMultiply("MultiplyOperation");
+        super.checkForMultiply(getNodeLabel());
     }
 
     @Override
