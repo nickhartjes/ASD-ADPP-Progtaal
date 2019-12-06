@@ -19,8 +19,13 @@ public class EvalExpressions implements Transform {
         // Calculate the operation, and replace the Operation with the result
         if (node instanceof Operation) {
             Literal literal = this.getOperationValue((Operation) node, ast);
-            parent.removeChild(node);
-            parent.addChild(literal);
+            this.replace(node, literal, parent);
+        }
+
+        // Fill the references with values
+        if (node instanceof VariableReference) {
+            Literal literal = (Literal) ast.getVariable((VariableReference) node);
+            this.replace(node, literal, parent);
         }
     }
 
@@ -39,5 +44,10 @@ public class EvalExpressions implements Transform {
         this.getValue(operation.lhs, ast);
         this.getValue(operation.rhs, ast);
         return operation.calculate(this.getValue(operation.lhs, ast), this.getValue(operation.rhs, ast));
+    }
+
+    private void replace(ASTNode node, Literal literal, ASTNode parent) {
+        parent.removeChild(node);
+        parent.addChild(literal);
     }
 }

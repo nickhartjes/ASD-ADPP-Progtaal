@@ -7,7 +7,7 @@ import java.util.*;
 public class AST {
     //The root of the tree
     public Stylesheet root;
-    private Map<VariableReference, Expression> variables = new HashMap<>();
+    private Map<ASTNode, ASTNode> variables = new HashMap<>();
 
     public AST() {
         root = new Stylesheet();
@@ -17,19 +17,19 @@ public class AST {
         root = stylesheet;
     }
 
-    public void addVariable(VariableReference variableReference, Expression expression) {
+    public void addVariable(ASTNode variableReference, ASTNode expression) {
         this.variables.put(variableReference, expression);
     }
 
-    public Expression getVariable(VariableReference variableReference) {
-        Expression expression = variables.get(variableReference);
+    public ASTNode getVariable(VariableReference variableReference) {
+        ASTNode expression = variables.get(variableReference);
         if(expression instanceof VariableReference){
             return this.getVariable((VariableReference)expression);
         }
         return expression;
     }
 
-    public Map<VariableReference, Expression> getVariables() {
+    public Map<ASTNode, ASTNode> getVariables() {
         return variables;
     }
 

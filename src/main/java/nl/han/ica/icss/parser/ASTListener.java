@@ -65,7 +65,6 @@ public class ASTListener extends ICSSBaseListener {
         while (parent instanceof Declaration || parent instanceof  VariableAssignment) {
             this.currentContainer.pop();
             parent = this.currentContainer.peek();
-
         }
         Declaration declaration = new Declaration();
         this.addChildToParent(declaration);
@@ -135,6 +134,9 @@ public class ASTListener extends ICSSBaseListener {
         ASTNode node = this.currentContainer.peek();
         if (node instanceof VariableAssignment) {
             this.ast.addVariable(((VariableAssignment) node).name, ((VariableAssignment) node).expression );
+        } else if (node instanceof Operation) {
+            this.currentContainer.pop();
+            this.exitVariableAssignment(ctx);
         }
     }
 

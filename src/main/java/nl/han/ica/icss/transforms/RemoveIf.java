@@ -17,9 +17,9 @@ public class RemoveIf implements Transform {
         if (node instanceof IfClause) {
             IfClause ifClause = (IfClause) node;
             if(ifClause.conditionalExpression instanceof VariableReference){
-                Expression expression = ast.getVariable((VariableReference) ifClause.conditionalExpression);
+                ASTNode expression = ast.getVariable((VariableReference) ifClause.conditionalExpression);
                 if(expression instanceof BoolLiteral  ){
-                    ifClause.conditionalExpression = expression;
+                    ifClause.conditionalExpression = (BoolLiteral)expression;
                 }
             }
 

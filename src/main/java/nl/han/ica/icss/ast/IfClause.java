@@ -73,7 +73,7 @@ public class IfClause extends ASTNode {
 
     }
 
-    private void boolCheck(Expression expression) {
+    private void boolCheck(ASTNode expression) {
         if (!(expression instanceof BoolLiteral)) {
             this.setError("If statement needs to be a BoolLiteral");
         }

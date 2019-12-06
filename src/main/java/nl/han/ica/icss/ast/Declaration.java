@@ -31,7 +31,7 @@ public class Declaration extends ASTNode {
         // Check if it is a variabeleReference, and replace the value;
         if (this.expression instanceof VariableReference) {
             VariableReference variableReference = (VariableReference) this.expression;
-            Expression expression = ast.getVariable(variableReference);
+            ASTNode expression = ast.getVariable(variableReference);
 
             if (expression == null) {
                 StringBuilder stringBuilder = new StringBuilder();
@@ -39,8 +39,9 @@ public class Declaration extends ASTNode {
                 stringBuilder.append(variableReference.name);
                 stringBuilder.append(" is not declared");
                 this.setError(stringBuilder.toString());
-            } else {
-                this.typeCheck(name, expression.getExpressionType());
+            } else if (expression instanceof  Expression) {
+                Expression node = (Expression)expression;
+                this.typeCheck(name, node.getExpressionType());
             }
         }
 

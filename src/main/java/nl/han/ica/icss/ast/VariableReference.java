@@ -40,7 +40,7 @@ public class VariableReference extends Expression {
     @Override
     public void check(AST ast) {
 
-        Expression expression = ast.getVariable(this);
+        ASTNode expression = ast.getVariable(this);
         if (expression == null) {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("The variabele reference with name: ");

@@ -58,10 +58,10 @@ public abstract class Operation extends Expression {
         }
 
         if (left instanceof VariableReference)
-            left = ast.getVariable((VariableReference) lhs);
+            left = (Expression) ast.getVariable((VariableReference) lhs);
 
         if (right instanceof VariableReference)
-            right = ast.getVariable((VariableReference) rhs);
+            right = (Expression) ast.getVariable((VariableReference) rhs);
 
         if (left.getExpressionType() != right.getExpressionType()) {
 
@@ -78,7 +78,7 @@ public abstract class Operation extends Expression {
         }
     }
 
-    private void checkForColorLiteral(Expression expression) {
+    private void checkForColorLiteral(ASTNode expression) {
         if (expression instanceof ColorLiteral) {
             this.setError("Not possible to use a Colorliteral in a Operation");
         }
